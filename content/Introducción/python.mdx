@@ -1,0 +1,95 @@
+# 3. Introducción a Python
+
+Python es un lenguaje de programación ampliamente utilizado en ciencia, ingeniería y educación. Su sintaxis es clara, concisa y cercana al lenguaje matemático, lo que lo convierte en una excelente herramienta para explorar conceptos de cálculo de manera programada.
+
+En esta sección, presentaremos los elementos esenciales del lenguaje que utilizaremos durante los laboratorios.
+
+---
+
+## 3.1 Variables y tipos numéricos
+
+Una **variable** permite almacenar un valor para usarlo posteriormente. En Python, no es necesario especificar el tipo de la variable.
+
+```python
+x = 5       # número entero (int)
+y = 3.14    # número decimal (float)
+```
+
+Es posible realizar operaciones matemáticas básicas entre variables:
+
+```python
+suma = x + y
+producto = x * y
+potencia = x ** 2
+```
+
+## 3.2 Comentarios
+
+Los comentarios se escriben con el símbolo `#` y permiten anotar el código para documentar su propósito.
+
+```python
+# Este es un comentario
+z = x + y  # Esta línea suma x e y
+```
+
+## 3.3 Funciones
+
+Una función es un bloque de código que recibe una entrada, realiza una operación y devuelve un resultado. Las funciones permiten reutilizar código, organizar ideas y estructurar soluciones de forma clara.
+
+En Python, una función se define utilizando la palabra clave `def`:
+
+```python
+def saludar():
+    print("Hola")
+```
+
+Para llamar una función, escribimos el nombre que le designamos seguido de dos paréntesis:
+
+```python
+saludar()
+# Hola
+```
+
+Las funciones también pueden recibir parámetros y retornar un valor con `return`:
+
+```python
+def cuadrado(x):
+    return x ** 2
+```
+
+En nuestro contexto, usaremos funciones para definir expresiones matemáticas como:
+
+```python
+def f(x):
+    return x**2 + 3
+```
+
+Luego se puede llamar la función con distintos valores de entrada:
+
+```python
+f(2)    # devuelve 7
+f(0.5)  # devuelve 3.25
+```
+
+## 3.4 Listas (muy breve)
+
+Una lista es una colección de elementos ordenados:
+
+```python
+valores = [1, 2, 3, 4]
+```
+
+Más adelante trabajaremos con estructuras similares llamadas **arrays**, que permiten operar con conjuntos de valores numéricos de manera eficiente (usando la librería `numpy`).
+
+## 3.5 Manejo de errores
+
+Es común cometer errores al escribir código. Cuando ocurre un error, Python muestra un mensaje que indica el tipo de error y la línea en la que ocurrió.
+
+Ejemplo:
+
+```python
+x = 2
+y = x +      # Error de sintaxis (SyntaxError)
+```
+
+Los errores son parte natural del proceso de programación. Aprender a interpretarlos es una habilidad valiosa que desarrollaremos a lo largo del curso.
