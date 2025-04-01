@@ -1,0 +1,105 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css" />
+
+# 5. Visualización de funciones con Matplotlib
+
+Además de hacer cálculos, muchas veces queremos **ver** lo que está ocurriendo con una función matemática.  
+Para eso, usaremos la librería **Matplotlib**, una herramienta estándar en Python para generar gráficos científicos.
+
+---
+
+## 5.1 ¿Qué es Matplotlib?
+
+`matplotlib` es una librería que permite crear gráficos en 2D (o 3D) de manera flexible.  
+Nosotros utilizaremos el módulo `pyplot`, que ofrece funciones simples para crear gráficos de líneas, puntos, áreas, etc.
+
+Primero debemos importarla:
+
+```python
+import matplotlib.pyplot as plt
+```
+
+## 5.2 Ejemplo: graficar $f(x) = x^2$
+
+A continuación, graficamos la función cuadrática utilizando NumPy para generar los datos y Matplotlib para visualizar:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-2, 2, 100)     # 100 valores entre -2 y 2
+y = x ** 2                      # f(x) = x^2
+
+plt.plot(x, y)                  # graficar la curva
+plt.title("Gráfica de $f(x) = x^2$")   # título
+plt.xlabel("x")                         # etiqueta en el eje x
+plt.ylabel("f(x)")                      # etiqueta en el eje y
+plt.grid(True)                          # mostrar rejilla
+plt.show()                              # mostrar el gráfico
+```
+
+## 5.3 Personalización básica del gráfico
+
+Podemos modificar el estilo del gráfico agregando color, tipo de línea y leyenda:
+
+```python
+plt.plot(x, y, color='red', linestyle='--', label='x^2')
+plt.legend()
+```
+
+Algunas opciones comunes:
+
+- Colores: `blue`, `green`, `red, `black`, etc.
+- Estilos de línea: `'-'` (línea sólida), `'--'` (línea punteada), `':'` (línea discontinua)
+
+
+## 5.4 Gráficar varias funciones
+
+Podemos visualizar múltiples funciones en el mismo gráfico:
+
+```python
+x = np.linspace(-2, 2, 100)
+f = x ** 2
+g = 2 * x + 1
+
+plt.plot(x, f, label='$f(x) = x^2$')
+plt.plot(x, g, label='$g(x) = 2x + 1$')
+plt.title("Comparación de funciones")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+
+## 5.5 Sobre el uso de librerías en la práctica
+
+En estos primeros ejemplos, hemos utilizado dos librerías muy importantes: `numpy` y `matplotlib`.
+
+Aprender a **usar librerías científicas** es una habilidad fundamental para cualquiera que trabaje con análisis de datos, simulaciones, ciencia o ingeniería.
+
+Esto incluye:
+
+- Saber **leer e interpretar la documentación** oficial
+- Aprender a **buscar ejemplos** en internet o en notebooks compartidos
+- Comprender y **resolver errores** cuando algo no funciona como se espera
+- Explorar distintas funciones, parámetros y posibilidades
+
+> Usar una librería no significa memorizarla, sino saber *leerla, usarla y adaptarla* a lo que necesitamos.
+
+Además, es importante mencionar un aspecto clave cuando usamos **modelos de lenguaje (LLMs)** como ChatGPT para programar:  
+Uno de los errores más comunes es asumir que las respuestas que generan son siempre precisas y actualizadas.
+
+- A veces los modelos no están entrenados con la **versión más reciente** de una librería.
+- Otras veces pueden **inventar métodos o funciones** que suenan razonables pero no existen.
+- También pueden combinar ejemplos de distintas fuentes de forma incorrecta.
+
+Por esta razón, es responsabilidad de cada uno **usar con criterio** lo que devuelven los LLMs y verificar siempre:
+
+- Si el método realmente existe
+- Si está bien escrito
+- Si corresponde a la versión actual de la librería
+
+> Un buen científico no solo ejecuta código: también entiende lo que está haciendo y por qué.
+
+---
