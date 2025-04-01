@@ -81,7 +81,100 @@ valores = [1, 2, 3, 4]
 
 Más adelante trabajaremos con estructuras similares llamadas **arrays**, que permiten operar con conjuntos de valores numéricos de manera eficiente (usando la librería `numpy`).
 
-## 3.5 Manejo de errores
+## 3.4 Condicionales `if`
+
+En programación, una **estructura condicional** permite ejecutar instrucciones únicamente si se cumple una condición lógica.
+
+La sintaxis básica es:
+
+```python
+if condición:
+    # instrucciones si la condición es verdadera
+```
+
+Por ejemplo, si queremos saber si un número es positivo:
+
+```python
+x = 5
+
+if x > 0:
+    print("x es positivo")
+```
+
+También podemos agregar una alternativa con `else`:
+
+```python
+x = -2
+
+if x > 0:
+    print("x es positivo")
+else:
+    print("x no es positivo")
+```
+
+Y si deseamos cubrir múltiples casos, usamos `elif` (abreviatura de “else if”):
+
+```python
+x = 0
+
+if x > 0:
+    print("x es positivo")
+elif x == 0:
+    print("x es cero")
+else:
+    print("x es negativo")
+```
+
+## 3.5 Ciclos
+
+### 3.5.1 Ciclo `for`
+
+Un **ciclo** permite repetir instrucciones varias veces.
+El ciclo `for` se usa para recorrer los elementos de una secuencia (como una lista).
+
+Ejemplo: imprimir los elementos de una lista.
+
+```python
+valores = [0, 1, 2, 3, 4]
+
+for x in valores:
+    print(x)
+```
+
+Ejemplo: calcular el cuadrado de cada número:
+
+```python
+cuadrados = []
+
+for x in valores:
+    cuadrados.append(x ** 2)
+
+print(cuadrados)
+```
+
+### 3.5.2 Ciclo `while`
+
+El ciclo `while` repite instrucciones **mientras** se cumpla una condición.
+
+Ejemplo: contar desde 0 hasta 4.
+
+```python
+x = 0
+
+while x < 5:
+    print(x)
+    x = x + 1
+```
+
+Es importante asegurarse de que la condición eventualmente se vuelva falsa, para que el ciclo termine.
+
+
+---
+
+Estos mecanismos permiten automatizar tareas que implican repeticiones o decisiones.
+En la siguiente sección veremos cómo muchas de estas tareas pueden realizarse de forma más eficiente usando NumPy.
+
+## 3.6 Manejo de errores
 
 Es común cometer errores al escribir código. Cuando ocurre un error, Python muestra un mensaje que indica el tipo de error y la línea en la que ocurrió.
 

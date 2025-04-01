@@ -1,0 +1,80 @@
+# 4. Introducción a NumPy
+
+En Python, una **librería** (o módulo) es un conjunto de funciones y herramientas adicionales que podemos usar para resolver problemas específicos de forma más eficiente.
+
+A lo largo del curso trabajaremos con varias librerías científicas. La primera que vamos a conocer es **NumPy**, una herramienta fundamental para el trabajo numérico en Python.
+
+---
+
+## 4.1 Motivación: ¿por qué NumPy?
+
+Supongamos que queremos evaluar la función \( f(x) = x^2 \) para varios valores de \( x \), por ejemplo:
+
+```python
+valores = [0, 1, 2, 3, 4]
+```
+Una posible solución con lo que ya sabemos sería:
+
+```python
+cuadrados = []
+
+for x in valores:
+    cuadrados.append(x ** 2)
+
+print(cuadrados)
+```
+
+Este código funciona correctamente, pero es algo largo, y a medida que los problemas se hacen más complejos, esta forma de trabajar puede volverse difícil de mantener y poco eficiente.
+
+Aquí es donde entra NumPy, una librería que permite trabajar con conjuntos de números (llamados *arrays*) de forma directa, clara y optimizada.
+
+## 4.2 Primeros pasos con NumPy
+
+Para usar una librería en Python, primero (luego de instalarla) debemos importarla. Por convención, a NumPy se le da el alias `np`:
+
+```python
+import numpy as np
+```
+
+Ahora podemos crear un array con los mismos valores:
+
+```python
+x = np.array([0, 1, 2, 3, 4])
+```
+
+Y elevar todos los valores al cuadrado con una sola línea:
+
+```python
+y = x ** 2
+print(y)
+```
+En lugar de usar un ciclo `for`, NumPy permite aplicar operaciones a todos los elementos del array al mismo tiempo. Esto se conoce como **operaciones vectorizadas**.
+
+## 4.3 Generar secuencias de valores con `linspace`
+
+Una de las funciones más útiles de NumPy es `linspace`, que permite generar valores numéricos espaciados de forma uniforme:
+
+```python
+x = np.linspace(0, 10, 100)  # 100 valores entre 0 y 10
+```
+
+## 4.4 Otras funciones matemáticas de NumPy
+
+NumPy incluye muchas funciones matemáticas listas para usar:
+
+```python
+np.sin(x)     # seno
+np.exp(x)     # exponencial
+np.sqrt(x)    # raíz cuadrada
+np.log(x)     # logaritmo natural
+```
+
+Estas funciones también operan sobre todos los elementos del array al mismo tiempo.
+
+## 4.5 Ventajas de usar NumPy
+
+- Código más **conciso** y **legible**
+- Mejor **rendimiento** para cálculos numéricos grandes
+- Amplia colección de funciones matemáticas y científicas
+- Es la base de muchas otras librerías de análisis y visualización de datos
+- Es bastante utilizada en el mundo científico
