@@ -1,0 +1,108 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css" />
+
+# 6. Ejercicios finales: visualizando la derivada
+
+Para cerrar este primer laboratorio, vamos a realizar dos ejercicios en los que conectaremos lo aprendido hoy con un concepto fundamental del cálculo diferencial: la **derivada**.
+
+La derivada de una función en un punto puede interpretarse como la **pendiente de la recta tangente** a la curva en ese punto.  
+Vamos a visualizar esa pendiente mediante una aproximación numérica utilizando Python.
+
+---
+
+## 6.1 Ejercicio 1 (en conjunto): la pendiente de $$f(x) = x^2$$ en $$x = 1$$
+
+Consideremos la función cuadrática $$f(x) = x^2$$. Queremos:
+
+- Graficar la función en un intervalo.
+- Aproximar la pendiente de la recta tangente en un punto $x_0 = 1$.
+- Graficar dicha recta tangente junto a la función.
+
+### Aproximación de la derivada
+
+Usamos la definición de derivada como razón de cambio promedio en un intervalo pequeño:
+
+```math
+f'(x_0) \approx \frac{f(x_0 + h) - f(x_0)}{h}
+```
+
+donde $h$ es un número pequeño, por ejemplo $0.01$.
+
+### Fórmula de la recta tangente
+
+Conocida la pendiente $m \approx f'(x_0)$, la **ecuación de la recta tangente** en $x_0$ es:
+
+```math
+T(x) = f(x_0) + f'(x_0)(x - x_0)
+```
+
+Esta fórmula es la que programaremos y graficaremos junto con la función.
+
+
+## Desarrollo paso a paso
+
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definimos la función
+def f(x):
+    return x ** 2
+
+# Punto donde evaluamos la pendiente
+x0 = 1
+h = 0.01
+
+# Aproximamos la derivada en x0
+slope = (f(x0 + h) - f(x0)) / h
+
+# Recta tangente: T(x) = f(x0) + slope * (x - x0)
+x = np.linspace(0, 2, 100)
+y = f(x)
+tangent = f(x0) + slope * (x - x0)
+
+# Visualización
+plt.plot(x, y, label='$f(x) = x^2$')
+plt.plot(x, tangent, '--', label='Recta tangente en $x=1$')
+plt.scatter([x0], [f(x0)], color='red')  # punto de tangencia
+plt.title("Visualización de la derivada como pendiente")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+## 6.2 Ejercicio 2 (en grupos): la pendiente de $$f(x) = \sin(x)$$ en $$x = \pi/4$$
+
+Ahora les propongo que repitan el mismo procedimiento, pero esta vez con la función:
+
+```math
+f(x) = \sin(x)
+```
+
+y evaluando la pendiente en el punto:
+
+```math
+x_0 = \frac{\pi}{4}
+```
+
+### Instrucciones:
+
+- Utilicen `np.sin` para definir la función.
+- Usen `np.pi` para representar $$\pi$$.
+- Aproximen la pendiente con la fórmula de la derivada:
+
+```math
+f'(x_0) \approx \frac{f(x_0 + h) - f(x_0)}{h}
+```
+
+- Programen la recta tangente con la ecuación
+
+```math
+T(x) = f(x_0) + f'(x_0)(x - x_0)
+```
+
+- Grafiquen la función y la tangente, igual que en el ejemplo anterior.
+- Agreguen etiquetas y título al gráfico.
+- Al finalizar, suban su código a `Classroom`
