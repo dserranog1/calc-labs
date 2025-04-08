@@ -84,7 +84,68 @@ Una lista es una colección de elementos ordenados:
 valores = [1, 2, 3, 4]
 ```
 
-Más adelante trabajaremos con estructuras similares llamadas **arrays**, que permiten operar con conjuntos de valores numéricos de manera eficiente (usando la librería `numpy`).
+Los elementos de una lista pueden ser accedidos por su posición (empezando desde 0):
+
+```python
+print(valores[0])  # imprime 1
+print(valores[2])  # imprime 3
+```
+
+También podemos modificar un valor existente:
+
+```python
+valores[1] = 10
+print(valores)  # [1, 10, 3, 4]
+```
+
+### Operaciones comunes con listas
+
+#### Agregar elementos
+
+```python
+valores.append(5)     # Agrega un nuevo valor al final
+```
+
+#### Recorrer una lista
+
+```python
+for x in valores:
+    print(x)
+```
+
+
+#### Obtener la longitud de una lista
+
+```python
+n = len(valores)
+```
+#### Sublistas (slicing)
+
+```python
+sublista = valores[1:3]  # elementos en las posiciones 1 y 2
+```
+
+#### Importancia práctica
+
+Las listas permiten trabajar con múltiples datos, como una tabla de valores de una función.
+Más adelante, usaremos arrays (estructuras similares) que permiten realizar operaciones matemáticas directamente sobre todos los elementos a la vez.
+
+Por ejemplo:
+
+```python
+# Lista de valores
+x = [0, 1, 2, 3]
+
+# Calcular sus cuadrados (forma básica)
+cuadrados = []
+for xi in x:
+    cuadrados.append(xi ** 2)
+
+print(cuadrados)  # [0, 1, 4, 9]
+```
+---
+
+Aunque más adelante `numpy` nos permitirá hacer este tipo de operaciones de forma más simple y eficiente, comprender las listas es fundamental para entender cómo se estructura y manipula la información en Python.
 
 ## 3.4 Condicionales `if`
 
@@ -137,24 +198,11 @@ else:
 Un **ciclo** permite repetir instrucciones varias veces.
 El ciclo `for` se usa para recorrer los elementos de una secuencia (como una lista).
 
-Ejemplo: imprimir los elementos de una lista.
+Ejemplo: imprimir los números del 1 al 10.
 
 ```python
-valores = [0, 1, 2, 3, 4]
-
-for x in valores:
+for n in range(1, 11):
     print(x)
-```
-
-Ejemplo: calcular el cuadrado de cada número:
-
-```python
-cuadrados = []
-
-for x in valores:
-    cuadrados.append(x ** 2)
-
-print(cuadrados)
 ```
 
 ### 3.5.2 Ciclo `while`
