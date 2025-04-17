@@ -1,0 +1,93 @@
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css" />
+
+# Visualización del método de exhausción
+
+Esta semana, en el laboratorio de Cálculo Integral, vamos a explorar una de las ideas más antiguas y poderosas del cálculo: **el método de exhausción**.
+
+## ¿Qué haremos hoy?
+
+Durante la primera parte del laboratorio construiremos una **visualización interactiva** que nos permita ver cómo Arquímedes razonaba sobre el área de un círculo mucho antes de que existiera el cálculo diferencial e integral.
+
+Nuestro objetivo será ver cómo, al encerrar el círculo entre **polígonos regulares interiores y exteriores**, podemos aproximar su área con cada vez más precisión. Este enfoque es uno de los antecedentes más notables de las sumas de Riemann y del concepto moderno de límite.
+
+## Un breve recordatorio
+
+El método de exhausción consiste en **encerrar una figura entre dos secuencias de otras figuras de área conocida** —una contenida en ella, y otra que la contiene— de manera que, al aumentar el número de subdivisiones, ambas áreas se acercan cada vez más al valor verdadero del área buscada.
+
+En nuestro caso, usaremos un **círculo de radio 1** y lo aproximaremos con:
+- **Polígonos regulares interiores** (que quedan por dentro del círculo)
+- **Polígonos regulares exteriores** (que lo contienen completamente)
+
+## Visualización en Python
+
+Aquí tienen una visualización interactiva escrita en Python. Pueden usarla en un Jupyter Notebook para explorar lo que sucede al variar el número de lados del polígono:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from ipywidgets import interact
+ 
+def plot_polygons(n_sides=3):
+    # Coordenadas del círculo unitario
+    theta = np.linspace(0, 2 * np.pi, 1000)
+    circle_x = np.cos(theta)
+    circle_y = np.sin(theta)
+ 
+    # Coordenadas de los vértices del polígono
+    angle = np.linspace(0, 2 * np.pi, n_sides, endpoint=False)
+    interior_x = np.cos(angle)
+    interior_y = np.sin(angle)
+ 
+    # Polígono exterior (radio ajustado)
+    exterior_r = 1 / np.cos(np.pi / n_sides)
+    exterior_x = exterior_r * np.cos(angle)
+    exterior_y = exterior_r * np.sin(angle)
+ 
+    # Cálculo de áreas
+    area_circle = np.pi
+    area_interior = (n_sides / 2) * np.sin(2 * np.pi / n_sides)
+    area_exterior = n_sides * np.tan(np.pi / n_sides)
+ 
+    # Visualización
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.plot(circle_x, circle_y, label="Círculo")
+    ax.plot(np.append(interior_x, interior_x[0]),
+            np.append(interior_y, interior_y[0]), label="Polígono interior")
+    ax.plot(np.append(exterior_x, exterior_x[0]),
+            np.append(exterior_y, exterior_y[0]), label="Polígono exterior")
+ 
+    ax.set_title(f"{n_sides} lados")
+    ax.legend()
+    # Mostrar áreas
+    print(f"Área del círculo: {area_circle:.6f}")
+    print(f"Área del polígono interior: {area_interior:.6f}")
+    print(f"Área del polígono exterior: {area_exterior:.6f}")
+    plt.grid(linestyle="--")
+    plt.show()
+ 
+ 
+interact(plot_polygons, n_sides=(3, 100, 1))
+```
+
+## ¿Qué observar?
+
+- A medida que aumentamos el número de lados del polígono, las áreas del polígono interior y del exterior se acercan al valor de $\pi$
+- Esta visualización muestra cómo Arquímedes razonaba que, si ambas aproximaciones se acercan al mismo número, ese número debe ser el área real.
+
+## Detalles clave del código
+- Usamos `numpy` para generar los ángulos y coordenadas de los vértices de los polígonos.
+- Usamos `matplotlib` para graficar tanto el círculo como los polígonos.
+- Usamos `ipywidgets.interact` para hacer un **deslizador interactivo** que permite variar el número de lados del polígono.
+- Las fórmulas utilizadas para calcular las áreas son:
+
+$$
+A_{\text{interior}} = \frac{n}{2} \cdot \sin\left(\frac{2\pi}{n}\right)
+$$
+
+$$
+A_{\text{exterior}} = n \cdot \tan\left(\frac{\pi}{n}\right)
+$$
+
+
+Ambas se obtienen a partir de fórmulas geométricas para polígonos regulares.

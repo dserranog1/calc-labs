@@ -1,0 +1,139 @@
+---
+title: Ejercicios
+sidebarTitle: Ejercicios
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+# Ejercicio grupal: aproximación del área bajo una parábola
+
+Ahora que ya visualizamos cómo el método de exhausción aproxima el área de un círculo encerrándolo entre polígonos, vamos a aplicar una idea muy similar para aproximar el área bajo una curva.
+
+En este caso, en lugar de usar polígonos, usaremos **rectángulos**. Esta técnica es precursora de las **sumas de Riemann**, y sigue el mismo espíritu: construir figuras geométricas cuya área sí sepamos calcular, y que en conjunto se acerquen al área real de la región que queremos medir.
+
+## Objetivo
+
+Aproximar el área bajo la función cuadrática $$f(x) = x^2$$ en el intervalo $$[0, 1]$$ usando rectángulos:
+
+- **Rectángulos interiores**: aquellos cuya altura es el menor valor de la función en cada subintervalo.
+- **Rectángulos exteriores**: aquellos cuya altura es el mayor valor de la función en cada subintervalo.
+
+## Instrucciones
+
+1. Dividan el intervalo $$[0, 1]$$ en $$n$$ subintervalos de igual tamaño.
+2. En cada subintervalo, calculen:
+   - El valor mínimo y máximo de la función.
+   - El área del rectángulo correspondiente.
+3. Sumen todas las áreas para obtener dos aproximaciones: una por debajo y otra por encima.
+4. Comparen ambos resultados con el valor real del área bajo la curva:
+
+```math
+\int_0^1 x^2 \, dx = \frac{1}{3}
+```
+
+5. Visualicen los rectángulos junto a la curva usando `matplotlib`.
+
+## Código en Python
+
+Este es un ejemplo funcional que pueden ejecutar y modificar para entender cómo cambia la aproximación al variar el número de rectángulos:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+    return x**2
+
+def aproximar_area_parabola(n):
+    a, b = 0, 1
+    x = np.linspace(a, b, n + 1)
+    dx = (b - a) / n
+
+    # Evaluar en extremos izquierdo y derecho de cada subintervalo
+    x_izq = x[:-1]  # extremos izquierdos
+    x_der = x[1:]   # extremos derechos
+
+    y_izq = f(x_izq)  # para área interior
+    y_der = f(x_der)  # para área exterior
+
+    area_interior = np.sum(y_izq * dx)
+    area_exterior = np.sum(y_der * dx)
+    area_real = 1 / 3
+
+    # Mostrar resultados
+    print(f"n = {n}")
+    print(f"Área interior (por debajo):     {area_interior:.6f}")
+    print(f"Área exterior (por encima):     {area_exterior:.6f}")
+    print(f"Área exacta:                    {area_real:.6f}")
+    print(f"Error relativo inferior:        {abs(area_real - area_interior) / area_real:.2%}")
+    print(f"Error relativo superior:        {abs(area_exterior - area_real) / area_real:.2%}")
+
+    # Visualización
+    fig, ax = plt.subplots(figsize=(8, 5))
+    x_fine = np.linspace(a, b, 1000)
+    ax.plot(x_fine, f(x_fine), label='f(x) = x²', color='black')
+
+    # Rectángulos interiores (azules)
+    ax.bar(x_izq, y_izq, width=dx, align='edge', alpha=0.5,
+           label='Rectángulos interiores', color='lightblue', edgecolor='black', linewidth=1)
+
+    # Rectángulos exteriores (rojos)
+    ax.bar(x_izq, y_der, width=dx, align='edge', alpha=0.3,
+           label='Rectángulos exteriores', color='lightcoral', edgecolor='black', linewidth=1)
+
+    ax.set_title(f"Aproximación con n = {n}")
+    ax.legend()
+    plt.xlabel("x")
+    plt.ylabel("f(x)")
+    plt.grid(True)
+    plt.show()
+
+# Ejemplo de uso
+aproximar_area_parabola(n=5)
+```
+
+## ¿Qué deberían explorar?
+
+- Prueben con distintos valores $n$: 5, 10, 50, 100.
+- Observen cómo las áreas interior y exterior convergen hacia el mismo número.
+- ¿Qué tan rápido converge esta aproximación?
+- ¿Qué relación hay entre la formula propuesta por Arquímedes si hacemos $n = 1$?
+
+# Ejercicio: aproximación del área bajo la raíz cuadrada
+
+Para finalizar el laboratorio, trabajaremos en un ejercicio muy parecido al que hicimos en grupo, pero aplicándolo a otra función.
+
+## Objetivo
+
+Aproximar el área bajo la curva de la función raíz cuadrada:
+
+```math
+f(x) = \sqrt{x}
+```
+
+en el intervalo $[0, 1]$
+
+Al igual que antes, la idea es construir:
+
+- **Rectángulos interiores**: evaluando la función en el extremo izquierdo de cada subintervalo.
+- **Rectángulos exteriores**: evaluando la función en el extremo derecho de cada subintervalo.
+
+La integral exacta en este caso es:
+
+```math
+\int_0^1 \sqrt{x} \, dx = \frac{1}{3}
+```
+
+## ¿Qué deberían explorar?
+
+- Prueben con distintos valores de $n$
+- Observen cómo disminuye la diferencia entre el área interior y exterior.
+- Comparen los errores relativos con los obtenidos en el ejercicio anterior.
+- ¿Con cuántos rectángulos se logra un error menor al 1%?
+
+## Comentarios finales
+
+Este ejercicio permite ver cómo el método de exhausción funciona con otras funciones crecientes. La diferencia entre áreas es más notoria aquí debido a la forma de la curva. Esta intuición será muy útil más adelante cuando trabajemos con sumas de Riemann e integrales definidas.
