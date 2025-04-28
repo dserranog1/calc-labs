@@ -25,20 +25,20 @@ Trabajaremos principalmente en dos etapas:
 
 Las propiedades que visualizaremos hoy son:
 
-- **Partición del intervalo:** 
+### Partición del intervalo: 
 
 ```math
 \int_a^b f(x) \, dx = \int_a^c f(x) \, dx + \int_c^b f(x) \, dx
 \quad \text{(si } a < c < b\text{)}
 ```
 
-- **Integral de la suma de funciones:**
+### Integral de la suma de funciones:
 
 ```math
 \int_a^b (f(x) + g(x)) \, dx = \int_a^b f(x) \, dx + \int_a^b g(x) \, dx
 ```
 
-- **Constante por una función:**
+### Constante por una función:
 
 ```math
 \int_a^b c \, f(x) \, dx = c \int_a^b f(x) \, dx
@@ -47,9 +47,8 @@ Las propiedades que visualizaremos hoy son:
 
 Durante el laboratorio, verán que cada una de estas propiedades se refleja de manera clara en las áreas bajo las curvas que graficaremos.
 
----
 
-# Definición de las funciones escalonadas
+## Definición de las funciones escalonadas
 
 Para visualizar las propiedades de la integral de forma sencilla y clara, vamos a trabajar primero con dos funciones escalonadas:
 
@@ -60,7 +59,7 @@ Donde el símbolo $$\lfloor x \rfloor$$ representa la **parte entera** de $$x$$,
 
 Estas funciones tienen saltos en puntos enteros (o semienteros, en el caso de $$g(x)$$), lo cual nos permite ver claramente cómo se comportan las áreas al aplicar operaciones como suma, partición del intervalo o multiplicación por constantes.
 
-## Código para graficar las funciones escalonadas
+### Código para graficar las funciones escalonadas
 
 El siguiente código en Python genera la gráfica de $$f(x)$$ y $$g(x)$$ en el intervalo $$[0,5]$$, representándolas **con puntos** para respetar la naturaleza de las funciones escalonadas:
 
@@ -87,16 +86,15 @@ ax.grid(True)
 plt.show()
 ```
 
-## ¿Qué observar en la gráfica?
+### ¿Qué observar en la gráfica?
 
 - $$f(x)$$ permanece constante en intervalos de longitud 1 y salta en los enteros.
 - $$g(x)$$ tiene el doble de saltos: cambia su valor cada 0.5 unidades.
 - Ninguna de las dos funciones es continua, pero ambas son funciones válidas: a cada valor de $$x$$ le corresponde exactamente un valor de $$f(x)$$ y de $$g(x)$$.
 - Esto hace que sean ideales para practicar las propiedades básicas de la integral.
 
----
 
-# Propiedad 1: Partición del intervalo
+## Propiedad 1: Partición del intervalo
 
 La primera propiedad que vamos a visualizar es la partición del intervalo de integración.
 
@@ -114,7 +112,7 @@ Para verlo con nuestras funciones, vamos a calcular:
 \int_0^5 f(x) \, dx = \int_0^3 f(x) \, dx + \int_3^5 f(x) \, dx
 ```
 
-## Código para visualizar la partición
+### Código para visualizar la partición
 
 En el siguiente código graficamos dos imágenes lado a lado: a la izquierda, las áreas separadas; a la derecha, el área total.
 
@@ -146,18 +144,16 @@ plt.tight_layout()
 plt.show()
 ```
 
----
 
-## ¿Qué observar en las gráficas?
+### ¿Qué observar en las gráficas?
 
 - En la primera gráfica, el área bajo $$f(x)$$ se divide en dos partes: de $$0$$ a $$3$$, y de $$3$$ a $$5$$.
 - En la segunda gráfica, el área es la misma pero visualizada de una sola vez, en todo el intervalo $$[0,5]$$.
 - **Si se dan cuenta, no estamos calculando ninguna integral manualmente: simplemente rellenamos el área bajo la curva usando `fill_between`**. 
-- **¡Eso es precisamente una integral! ¡Es el área bajo la curva!**
+- **Eso es precisamente una integral, es el área bajo la curva**
 
----
 
-# Propiedad 2: Integral de la suma de funciones
+## Propiedad 2: Integral de la suma de funciones
 
 La segunda propiedad que vamos a visualizar es que **la integral de la suma de dos funciones es la suma de sus integrales**.
 
@@ -176,9 +172,8 @@ Trabajaremos con las funciones escalonadas:
 
 en el intervalo $$[0,5]$$.
 
----
 
-## Código para visualizar la propiedad
+### Código para visualizar la propiedad
 
 Primero graficamos las áreas bajo $$f(x)$$ y $$g(x)$$ por separado, y luego graficamos el área bajo $$f(x) + g(x)$$:
 
@@ -211,19 +206,17 @@ plt.tight_layout()
 plt.show()
 ```
 
----
 
-## ¿Qué observar en las gráficas?
+### ¿Qué observar en las gráficas?
 
 - En la primera gráfica vemos el área bajo $$f(x)$$ y el área bajo $$g(x)$$ dibujadas por separado.
 - En la segunda gráfica, el área bajo la suma $$f(x) + g(x)$$ corresponde a la combinación de las dos áreas anteriores.
 - **De nuevo, no estamos calculando integrales manualmente: solo estamos "rellenando" áreas bajo curvas.**
 - **La integral de una suma es la suma de las integrales porque "área + área = área total".**
 
----
 
 
-# Propiedad 3: Constante por una función
+## Propiedad 3: Constante por una función
 
 La tercera propiedad que vamos a visualizar es que **integrar una constante por una función es lo mismo que multiplicar la integral por esa constante**.
 
@@ -242,9 +235,8 @@ En nuestro caso, trabajaremos con:
 
 en el intervalo $$[0,5]$$.
 
----
 
-## Código para visualizar la propiedad
+### Código para visualizar la propiedad
 
 Primero graficamos el área bajo $$f(x)$$, y luego el área bajo $$2f(x)$$:
 
@@ -275,9 +267,8 @@ plt.tight_layout()
 plt.show()
 ```
 
----
 
-## ¿Qué observar en las gráficas?
+### ¿Qué observar en las gráficas?
 
 - En la primera gráfica tenemos el área bajo $$f(x)$$, limitada de 0 a 15.
 - En la segunda gráfica, el área bajo $$2f(x)$$ es exactamente el doble, limitada de 0 a 30.
@@ -295,7 +286,7 @@ Hasta este punto hemos visualizado tres propiedades fundamentales de la integral
 - Integrar una constante multiplicada por una función es lo mismo que multiplicar la integral por esa constante.
 
 Todas estas propiedades se reflejan **claramente** cuando pensamos en el área bajo la curva:  
-¡integrar es, en esencia, **sumar áreas**!
+integrar es, en esencia, **sumar áreas**
 
 Aunque nuestras funciones $$f(x)$$ y $$g(x)$$ no eran continuas (tenían saltos), las propiedades de la integral siguen siendo válidas.
 
