@@ -1,0 +1,38 @@
+---
+title: Introducción
+sidebarTitle: Introducción
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+# El Teorema Fundamental del Cálculo
+
+En esta sesión vamos a estudiar una de las ideas más profundas y poderosas de todo el cálculo: el Teorema Fundamental del Cálculo (TFC). Este teorema establece un vínculo directo entre las dos operaciones principales del análisis: **derivar** e **integrar**.
+
+De hecho, el TFC tiene dos partes que pueden parecer independientes, pero que están profundamente conectadas:
+
+```math
+\textbf{Parte 1:} \quad F(x) = \int_a^x f(t)\,dt \quad \Rightarrow \quad F'(x) = f(x)
+```
+
+```math
+\textbf{Parte 2:} \quad \int_a^b f(x)\,dx = F(b) - F(a) \quad \text{si } F'(x) = f(x)
+```
+
+---
+
+En este laboratorio nos vamos a concentrar en la **primera parte**. Vamos a explorar visualmente qué significa que derivar una función acumulada (es decir, una función que suma área bajo una curva) nos devuelve la función original.
+
+
+## ¿Qué haremos?
+
+Durante esta sesión:
+
+- Verán distintas visualizaciones que muestran cómo la **función acumulada** $$F(x)$$ cambia conforme acumulamos área bajo la curva de una función $$f(t)$$.
+- En cada punto veremos también la **recta tangente** a $$F(x)$$, y cómo su pendiente coincide exactamente con el valor de $$f(x)$$.
+- Al final, ustedes construirán su propia visualización para una función un poco más interesante.
+
+Todo esto les ayudará a **entender visualmente** por qué $$\frac{d}{dx} \left( \int_a^x f(t)\,dt \right) = f(x)$$ no es solo una fórmula, sino una idea geométrica muy poderosa.
