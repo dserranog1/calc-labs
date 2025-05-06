@@ -26,45 +26,50 @@ import numpy as np
 import matplotlib.pyplot as plt
 from ipywidgets import interact, FloatSlider
 
+# Función f(t) = t
 def f(t):
     return t
 
+# Dominio de integración
 a = -5
 b = 5
 x_vals = np.linspace(a, b, 500)
 
+# Función acumulada: F(x) = ∫_a^x t dt = (1/2)(x^2 - a^2)
 def F(x):
     return 0.5 * (x**2 - a**2)
 
+# Función para graficar
 def plot_tfc_part1(x):
     fig, axs = plt.subplots(1, 2, figsize=(14, 5))
 
-    # Gráfico izquierdo: F(x) con tangente
-    axs[0].plot(x_vals, F(x_vals), label=r'$F(x) = \int_{-5}^x t\,dt$', color='green')
-    axs[0].scatter([x], [F(x)], color='red', zorder=5, label=r'$F(x)$')
-
-    slope = f(x)
-    x_tangent = np.linspace(x - 1, x + 1, 100)
-    y_tangent = F(x) + slope * (x_tangent - x)
-    axs[0].plot(x_tangent, y_tangent, '--', color='orange', label='Tangente en $x$')
-
+    # Gráfico 1: Área bajo f(t) = t desde a hasta x
+    t_vals = np.linspace(a, b, 500)
+    axs[0].plot(t_vals, f(t_vals), label=r'$f(t) = t$', color='blue')
+    t_fill = np.linspace(a, x, 300)
+    axs[0].fill_between(t_fill, 0, f(t_fill), color='lightblue', alpha=0.6)
     axs[0].axvline(x, color='gray', linestyle='--')
-    axs[0].set_title(r'Función $F(x)$ y su tangente')
-    axs[0].set_xlabel('x')
-    axs[0].set_ylabel('F(x)')
+    axs[0].set_title(r'Área bajo $f(t) = t$ desde $a$ hasta $x$')
+    axs[0].set_xlabel('t')
+    axs[0].set_ylabel('f(t)')
     axs[0].legend()
     axs[0].grid(True)
     axs[0].set_xlim(a, b)
 
-    # Gráfico derecho: área bajo f(t)
-    t_vals = np.linspace(a, b, 500)
-    axs[1].plot(t_vals, f(t_vals), label=r'$f(t) = t$', color='blue')
-    t_fill = np.linspace(a, x, 300)
-    axs[1].fill_between(t_fill, 0, f(t_fill), color='lightblue', alpha=0.6)
+    # Gráfico 2: F(x) y su recta tangente en x
+    axs[1].plot(x_vals, F(x_vals), label=r'$F(x) = \int_{-5}^x t\,dt$', color='green')
+    axs[1].scatter([x], [F(x)], color='red', zorder=5, label=r'$F(x)$')
+
+    # Recta tangente en x: pendiente = f(x) = x
+    slope = f(x)
+    x_tangent = np.linspace(x - 1, x + 1, 100)
+    y_tangent = F(x) + slope * (x_tangent - x)
+    axs[1].plot(x_tangent, y_tangent, '--', color='orange', label='Tangente en $x$')
+
     axs[1].axvline(x, color='gray', linestyle='--')
-    axs[1].set_title(r'Área bajo $f(t)$ desde $a$ hasta $x$')
-    axs[1].set_xlabel('t')
-    axs[1].set_ylabel('f(t)')
+    axs[1].set_title(r'Función $F(x)$ y su tangente')
+    axs[1].set_xlabel('x')
+    axs[1].set_ylabel('F(x)')
     axs[1].legend()
     axs[1].grid(True)
     axs[1].set_xlim(a, b)
@@ -72,9 +77,11 @@ def plot_tfc_part1(x):
     plt.tight_layout()
     plt.show()
 
+    # Mostrar valores numéricos
     print(f"Área bajo la curva f(t)=t entre {a} y {x:.2f}: {F(x):.4f}")
     print(f"Valor de F({x:.2f}) = {F(x):.4f}")
 
+# Llamada interactiva
 interact(plot_tfc_part1, x=FloatSlider(value=0.0, min=a, max=b, step=0.1, description='x'))
 ```
 
