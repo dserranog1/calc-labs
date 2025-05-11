@@ -1,0 +1,58 @@
+---
+title: Método del trapecio
+sidebarTitle: Método del trapecio
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+## ¿Por qué usar un trapecio?
+
+Ahora que ya sabemos cómo dividir un intervalo, vamos a ver cómo podemos **aproximar el área bajo una curva** usando la información que tenemos en los extremos.
+
+Supongamos que queremos calcular el área bajo una función $$f(x)$$ en un intervalo $$[a, b]$$.  
+Si no podemos hacerlo de forma exacta, una idea simple es:
+
+- Tomar los valores de la función en los extremos: $$f(a)$$ y $$f(b)$$.
+- Trazar una **línea recta** que conecte esos dos puntos.
+- Calcular el área del **trapecio** que se forma entre la curva y el eje $x$.
+
+Visualmente, estamos aproximando la curva por una recta, y el área bajo esa recta es fácil de calcular:
+
+```math
+\int_a^b f(x) \, dx \approx \frac{b - a}{2} \left[ f(a) + f(b) \right]
+```
+
+Esta es la **fórmula del método del trapecio** para un solo subintervalo.
+
+Es una aproximación sencilla, pero sorprendentemente buena si la función es suave en ese intervalo.  
+Más adelante, veremos cómo generalizar esta idea dividiendo el intervalo en muchos subintervalos pequeños.
+
+
+## Fórmula general del método del trapecio
+
+Si la aproximación con un solo trapecio funciona bien en algunos casos, **usar varios trapecios pequeños** suele funcionar aún mejor.
+
+Para eso, dividimos el intervalo $$[a, b]$$ en $$n$$ subintervalos de largo $$h = \frac{b - a}{n}$$, como vimos antes.
+
+Luego, evaluamos la función en cada uno de los puntos de la partición:
+
+$$
+x_0 = a,\quad x_1 = a + h,\quad x_2 = a + 2h,\quad \dots,\quad x_n = b
+$$
+
+La fórmula del método del trapecio generalizado es:
+
+```math
+\int_a^b f(x)\,dx \approx \frac{h}{2} \left[ f(x_0) + 2f(x_1) + 2f(x_2) + \dots + 2f(x_{n-1}) + f(x_n) \right]
+```
+
+Observaciones importantes:
+
+- Los **puntos extremos** $f(x_0)$ y $f(x_n)$ se cuentan una sola vez.
+- Los **puntos intermedios** se comparten entre dos trapecios, por eso se multiplican por 2.
+- Esta fórmula permite sumar eficientemente todas las áreas de los trapecios entre cada par de puntos consecutivos.
+
+En el siguiente bloque implementaremos este método paso a paso en Python.

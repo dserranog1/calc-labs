@@ -1,0 +1,62 @@
+---
+title: Implementación
+sidebarTitle: Implementación
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+## Pseudocódigo del método del trapecio
+
+Antes de programar el método, vamos a escribirlo como un conjunto de pasos — lo que se conoce como **pseudocódigo**. La idea es capturar la lógica del procedimiento sin preocuparnos aún por la sintaxis exacta de Python.
+
+Supongamos que tenemos:
+
+- Una función $f(x)$ que podemos evaluar.
+- Un intervalo $[a, b]$.
+- Un número de subintervalos $n$.
+
+```
+1. Calcular h = (b - a) / n
+2. Inicializar suma = f(a) + f(b)
+3. Para i desde 1 hasta n - 1:
+       x_i = a + i * h
+       suma = suma + 2 * f(x_i)
+4. Aproximación final = (h / 2) * suma
+```
+
+Este algoritmo sigue exactamente la fórmula que vimos antes:
+
+- Se evalúa la función en los extremos y se suman.
+- Se evalúa en cada punto intermedio y se multiplica por 2.
+- Finalmente, se multiplica todo por $h/2$.
+
+
+## Implementación en Python
+
+A continuación, vamos a implementar el método del trapecio paso a paso en Python, siguiendo exactamente el pseudocódigo que vimos antes.
+
+```python
+def trapecio(f, a, b, n):
+    h = (b - a) / n
+    suma = f(a) + f(b)
+    
+    for i in range(1, n):
+        x_i = a + i * h
+        suma += 2 * f(x_i)
+    
+    aproximacion = (h / 2) * suma
+    return aproximacion
+```
+
+Esta función recibe:
+
+- `f`: una función que toma un número y devuelve un número (es decir, $f(x)$),
+- `a` y `b`: los extremos del intervalo,
+- `n`: el número de subintervalos.
+
+Y devuelve una **aproximación numérica** de la integral de $f(x)$ en el intervalo $[a, b]$.
+
+En la siguiente sección veremos un ejemplo de uso, y compararemos el resultado con la solución exacta.
