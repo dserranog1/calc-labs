@@ -1,0 +1,29 @@
+---
+title: Método del trapecio
+sidebarTitle: Método del trapecio
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+## Discretización del intervalo
+
+La mayoría de los métodos numéricos comienzan con un paso fundamental: **discretizar** un intervalo.  
+Esto significa **dividir un intervalo continuo en partes más pequeñas y manejables**, para poder operar sobre él con números.
+
+Por ejemplo, si queremos integrar una función en el intervalo $$[a, b]$$, lo que hacemos es:
+
+1. Escoger un número de subintervalos, digamos $$n$$.
+2. Calcular el **tamaño del paso**:
+   $$ h = \frac{b - a}{n} $$
+3. Definir los puntos de partición:
+   $$ x_0 = a,\quad x_1 = a + h,\quad x_2 = a + 2h,\quad \dots,\quad x_n = b $$
+
+Esto genera una partición del intervalo en puntos equiespaciados, y nos permite evaluar la función $$f(x)$$ **solo en esos puntos**.
+
+Esta idea es central en todos los métodos numéricos: como no podemos trabajar con infinitos valores de $$x$$, **trabajamos con algunos puntos seleccionados** que representan bien el comportamiento de la función.
+
+> Esto es exactamente lo que hace `np.linspace(a, b, n + 1)`:
+> genera \( n + 1 \) puntos equidistantes desde \( a \) hasta \( b \), que dividen el intervalo en \( n \) subintervalos de largo \( h \).

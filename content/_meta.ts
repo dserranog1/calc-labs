@@ -12,6 +12,9 @@ const meta: MetaRecord = {
   },
   tfc: {
     title: "Teorema fundamental del cálculo",
+  },
+  "numeric-methods": {
+    title: "Métodos numéricos"
   }
 };
 

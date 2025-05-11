@@ -1,0 +1,50 @@
+---
+title: ¿Qué son los métodos numéricos?
+sidebarTitle: ¿Qué son los métodos numéricos?
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+## ¿Qué son los métodos numéricos?
+
+Los métodos numéricos son técnicas que nos permiten **aproximar** soluciones a problemas matemáticos cuando no podemos (o no queremos) resolverlos de forma exacta.
+
+En lugar de encontrar una solución simbólica —como una primitiva escrita con funciones conocidas—, los métodos numéricos nos dan **números** que se acercan mucho al valor real.
+
+Un ejemplo clásico es el de las integrales definidas. Si bien a veces podemos resolverlas con una fórmula cerrada, hay muchas funciones para las que eso no es posible. Por ejemplo:
+
+- $$\int_0^1 e^{-x^2} \, dx$$ no tiene una primitiva elemental.
+- $$\int_0^1 \sqrt{1 + x^4} \, dx$$ sí tiene primitiva, pero es difícil de encontrar y poco útil para evaluarla manualmente.
+- A veces ni siquiera tenemos una fórmula: solo tenemos los valores de la función en algunos puntos.
+
+En todos estos casos, usar un método numérico no es solo útil: **es necesario**.
+
+Más allá de la integración, los métodos numéricos se usan en:
+- Ecuaciones diferenciales (como las que aparecen en física, química o biología).
+- Cálculo de raíces.
+- Solución de sistemas de ecuaciones.
+- Optimización de funciones, entre muchos otros casos.
+
+## ¿Método analítico o método numérico?
+
+A lo largo de su formación, van a escuchar con frecuencia estas dos expresiones:
+
+- **Método analítico**: busca una **solución exacta**, escrita con símbolos o fórmulas. Por ejemplo, resolver una integral como:
+  
+  ```math
+  \int_0^1 x^2 \, dx = \left. \frac{x^3}{3} \right|_0^1 = \frac{1}{3}
+  ```
+
+  Aquí encontramos la primitiva de la función, la evaluamos en los extremos y obtenemos una expresión exacta.
+
+- **Método numérico**: busca una **aproximación**, usando cálculos con números. Por ejemplo, dividir el intervalo $$[0, 1]$$ en muchos subintervalos y sumar áreas de trapecios para estimar la misma integral.
+
+Ambos enfoques son válidos y útiles, pero tienen propósitos distintos:
+
+- Lo analítico nos da información estructural, exacta, y a veces elegante.
+- Lo numérico nos permite **resolver problemas que no tienen solución exacta conocida**, o que serían muy difíciles de manejar con lápiz y papel.
+
+En este laboratorio vamos a implementar uno de los métodos numéricos más simples y útiles: el **método del trapecio**.
