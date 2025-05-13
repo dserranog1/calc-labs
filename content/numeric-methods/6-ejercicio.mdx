@@ -1,0 +1,63 @@
+---
+title: Ejercicio
+sidebarTitle: Ejercicio
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+## 🧪 Ejercicio: Integrar logaritmos a mano... y con trapecios
+
+Aplicar el método del trapecio para aproximar el valor de la siguiente integral definida:
+
+$$
+\int_1^9 \ln(x)\,dx
+$$
+
+Esta integral puede resolverse de forma exacta utilizando el Teorema Fundamental del Cálculo, lo que permite compararla con la aproximación numérica.
+
+### Pasos a seguir
+
+1. **Encontrar la antiderivada manualmente** de la función $f(x) = \ln(x)$.
+   - Aplicar el TFC para obtener el valor exacto de la integral en el intervalo $[1, 9]$.
+
+2. **Aproximar la integral utilizando el método del trapecio** con $n = 3$ subintervalos.
+   - Usar la implementación programada del método.
+   - Registrar este valor como primera aproximación.
+
+3. **Repetir el cálculo aumentando gradualmente el número de trapecios**.  
+   - Calcular la aproximación para los siguientes valores de $n$:
+     $n = 3,\ 6,\ 12,\ 24,\ 48,\ 96$
+   - Para cada caso, calcular el **error porcentual** con respecto al valor exacto.
+
+4. **Graficar la evolución del error porcentual** en función del número de trapecios $n$.
+    - Utilizar los mismos $n$ del punto anterior.
+    - Graficar $n$ vs **error**.
+
+5. **Visualizar la función y su antiderivada**:
+   - Dibujar en una misma gráfica la función $f(x) = \ln(x)$ y su primitiva $F(x) = x \ln(x) - x$ en el intervalo $[1, 9]$.
+   - Señalar visualmente el área que se desea aproximar.
+   - Observar cómo se relaciona el área bajo $f(x)$ con la variación de valores en $F(x)$.
+
+---
+
+
+## 🧠 Preguntas
+
+Responder con una o dos frases por pregunta. Justificar cada respuesta con observaciones del ejercicio realizado.
+
+1. ¿Qué tipo de función es $f(x) = \ln(x)$ en el intervalo $[1, 9]$? ¿Es creciente o decreciente? ¿Cóncava o convexa?
+
+2. ¿El método del trapecio tiende a **sobreestimar** o **subestimar** el valor de la integral en este caso? ¿Por qué?
+
+3. ¿Cómo se comporta el error porcentual a medida que aumenta el número de subintervalos $n$?
+
+4. ¿El error se reduce a la mitad al duplicar $n$? ¿O se comporta de otra forma? ¿Qué sugiere esto sobre la eficiencia del método?
+
+5. ¿Hay algún punto a partir del cual aumentar $n$ ya no mejora mucho la aproximación? Si es así, ¿por qué crees que sucede?
+
+6. Al observar la gráfica de la primitiva $F(x)$, ¿cómo se relaciona el valor de la integral con la diferencia $F(b) - F(a)$? ¿Se nota visualmente?
+
+7. ¿Qué ventajas tiene el método numérico sobre la solución analítica en este caso? ¿Y qué desventajas?
