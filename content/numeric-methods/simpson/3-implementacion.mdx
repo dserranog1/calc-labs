@@ -1,0 +1,72 @@
+---
+title: Implementación
+sidebarTitle: Implementación
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+## Pseudocódigo del método de Simpson
+
+A continuación, se muestra el algoritmo para implementar la regla de Simpson compuesta.  
+Este pseudocódigo asume que ya se tiene:
+
+- Una función $f(x)$ evaluable.
+- Un intervalo $[a, b]$.
+- Un número de subintervalos $n$, que debe ser **par**.
+
+```
+1. Verificar que n sea par. Si no lo es, mostrar un error o ajustar n.
+2. Calcular h = (b - a) / n
+3. Inicializar suma = f(a) + f(b)
+
+4. Para i desde 1 hasta n - 1:
+       x_i = a + i * h
+       Si i es impar:
+           suma += 4 * f(x_i)
+       Si i es par:
+           suma += 2 * f(x_i)
+
+5. Aproximación final = (h / 3) * suma
+6. Devolver el valor de la aproximación
+```
+
+Este algoritmo sigue directamente la fórmula:
+
+$
+\frac{h}{3} \left[ f(x_0) + 4f(x_1) + 2f(x_2) + 4f(x_3) + \dots + f(x_n) \right]
+$
+
+## Implementación en Python
+
+A continuación se implementa el método de Simpson compuesto en Python.
+
+```python
+def simpson(f, a, b, n):
+    if n % 2 != 0:
+        raise ValueError("n debe ser par.")
+
+    h = (b - a) / n
+    suma = f(a) + f(b)
+
+    for i in range(1, n):
+        x_i = a + i * h
+        if i % 2 == 0:
+            suma += 2 * f(x_i)
+        else:
+            suma += 4 * f(x_i)
+
+    return (h / 3) * suma
+```
+
+Esta función:
+
+- Evalúa la función `f` en los puntos necesarios.
+- Aplica los pesos $1,\ 4,\ 2,\ \dots,\ 4,\ 1$ según la posición del punto.
+- Devuelve la aproximación numérica de la integral.
+
+En la siguiente sección aplicaremos este método a un ejemplo concreto y lo compararemos con el resultado simbólico usando `sympy` y el método numérico `quad` de `scipy`.
+

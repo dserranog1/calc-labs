@@ -14,8 +14,8 @@ const meta: MetaRecord = {
     title: "Teorema fundamental del cálculo",
   },
   "numeric-methods": {
-    title: "Métodos numéricos"
-  }
+    title: "Métodos numéricos",
+  },
 };
 
 export default meta;

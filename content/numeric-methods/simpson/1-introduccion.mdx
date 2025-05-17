@@ -1,0 +1,33 @@
+---
+title: Introducción
+sidebarTitle: Introducción
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+# Aproximar mejor: introducción a la regla de Simpson
+
+En la sesión anterior usamos el **método del trapecio** para aproximar el valor de una integral definida. Vimos que dividir el intervalo en partes pequeñas y sumar áreas de trapecios puede dar resultados bastante buenos, especialmente cuando la función es suave.
+
+Sin embargo, también observamos algunas limitaciones:
+
+- El error disminuye lentamente.
+- La aproximación puede ser pobre si la función es muy curva o no se comporta linealmente en los subintervalos.
+
+En esta nueva sesión, vamos a introducir un método más preciso: la **regla de Simpson**.  
+Este método usa parábolas en lugar de rectas para aproximar la función, lo que permite capturar mejor su curvatura y reducir el error rápidamente.
+
+Además, aprenderemos a comparar nuestras aproximaciones con resultados exactos usando herramientas especializadas:
+
+- **SymPy**, para calcular integrales de forma simbólica.
+- **Scipy**, para usar métodos numéricos avanzados como `quad`.
+
+Al final del laboratorio, sabrán:
+
+- Qué es la regla de Simpson y cómo implementarla desde cero.
+- En qué se diferencia del método del trapecio.
+- Cómo evaluar la calidad de una aproximación.
+- Cuándo y cómo usar herramientas simbólicas y numéricas para resolver integrales.

@@ -1,0 +1,62 @@
+---
+title: Método de Simpson
+sidebarTitle: Método de Simpson
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+## ¿Por qué usar parábolas?
+
+En el método del trapecio, aproximamos la curva de la función por tramos lineales.  
+Ahora daremos un paso más: vamos a **aproximar cada tramo con una parábola**.
+
+La idea es simple: en lugar de conectar dos puntos con una recta, tomamos **tres puntos consecutivos** y los hacemos coincidir con una parábola que pase exactamente por ellos.
+
+Esto nos da una mejor aproximación del comportamiento curvo de la función, y por lo tanto, **un mejor estimado del área bajo la curva**.
+
+### Visualmente:
+- Se toma un intervalo $[a, b]$.
+- Se calcula el punto medio $m = \frac{a + b}{2}$.
+- Se construye una parábola que pase por los puntos $(a, f(a))$, $(m, f(m))$ y $(b, f(b))$.
+
+El área bajo esa parábola se puede calcular exactamente, y da lugar a la siguiente fórmula:
+
+```math
+\int_a^b f(x)\,dx \approx \frac{b - a}{6} \left[ f(a) + 4f\left( \frac{a + b}{2} \right) + f(b) \right]
+```
+
+Esta es la **fórmula de Simpson simple**.
+
+## Regla de Simpson compuesta
+
+La fórmula anterior funciona bien en un solo intervalo $[a, b]$, pero si queremos mayor precisión, podemos aplicar **la misma idea muchas veces** a lo largo de varios subintervalos.
+
+Para eso, dividimos el intervalo $[a, b]$ en $n$ subintervalos **iguales**, donde $n$ debe ser **par**.
+
+Sea $h = \frac{b - a}{n}$ el ancho de cada subintervalo, y sean los puntos:
+
+$$
+x_0 = a,\quad x_1 = a + h,\quad x_2 = a + 2h,\quad \dots,\quad x_n = b
+$$
+
+La **regla de Simpson compuesta** se expresa como:
+
+```math
+\int_a^b f(x)\,dx \approx \frac{h}{3} \left[
+f(x_0) + 4f(x_1) + 2f(x_2) + 4f(x_3) + \dots + 4f(x_{n-1}) + f(x_n)
+\right]
+```
+
+### Observaciones:
+
+- Los **extremos** $f(x_0)$ y $f(x_n)$ aparecen una sola vez.
+- Los **índices impares** (como $x_1, x_3, \dots$) van con peso 4.
+- Los **índices pares intermedios** (como $x_2, x_4, \dots, x_{n-2}$) van con peso 2.
+
+Este patrón de pesos ($1,\ 4,\ 2,\ 4,\ 2,\ \dots,\ 4,\ 1$) permite capturar con mucha precisión la forma de la función con relativamente pocos puntos.
+
+A continuación, escribiremos el pseudocódigo de este procedimiento.
