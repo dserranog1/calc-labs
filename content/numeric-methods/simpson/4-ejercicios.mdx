@@ -122,3 +122,47 @@ plt.ylabel("Error porcentual")
 plt.grid(True)
 plt.show()
 ```
+
+
+## 🧪 Ejercicio: cuando la función "parece fácil"... pero no lo es
+
+En este ejercicio se pondrá a prueba el método de Simpson compuesto con una función que visualmente parece inofensiva, pero que esconde un comportamiento que desafía nuestra intuición.
+
+Considerar la función:
+
+$$
+f(x) = \sin(10x^2)
+$$
+
+en el intervalo $[0, 1]$.
+
+### ¿Qué se debe hacer?
+
+1. **Graficar la función** $f(x)$ en el intervalo $[0, 1]$.
+   - Observar qué ocurre cerca del extremo derecho del intervalo.
+
+2. **Aplicar el método de Simpson compuesto** para aproximar la integral definida:
+
+   $$
+   \int_0^1 \sin(10x^2)\,dx
+   $$
+
+   - Utilizar varios valores de $n$: por ejemplo $n = 2,\ 4,\ 8,\ 16,\ 32,\ 64,\ 128$.
+   - Registrar el valor aproximado para cada $n$.
+
+3. **Comparar los resultados con la solución obtenida usando `quad` de `scipy.integrate`**.
+   - Calcular el error absoluto o porcentual para cada caso.
+   - Representar gráficamente el error en función de $n$.
+
+
+> Este ejercicio busca mostrar que no todas las funciones suaves son "fáciles" de integrar numéricamente, y que la curvatura o la oscilación pueden jugar un papel muy importante.
+
+## 🧠 Preguntas para reflexionar
+
+Responder con una o dos frases. Justificar las respuestas observando las gráficas y los resultados obtenidos.
+
+1. ¿Qué observaste al graficar la función $f(x) = \sin(10x^2)$ en el intervalo $[0, 1]$? ¿Es lo que esperabas?
+
+2. ¿Cómo se comporta el error absoluto al aumentar el número de subintervalos $n$?
+
+3. ¿El error disminuye de forma regular como en ejercicios anteriores? ¿O presenta saltos, zonas planas o comportamientos inesperados?
