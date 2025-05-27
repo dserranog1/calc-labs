@@ -1,0 +1,78 @@
+---
+title: Centroide de un conjunto de puntos
+sidebarTitle: Centroide de un conjunto de puntos
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+## 🔵 Centroide de un conjunto de puntos (masa uniforme)
+
+Supongamos que tenemos un conjunto de puntos distribuidos en el plano.  
+Cada punto representa una pequeña masa idéntica — por ejemplo, pequeñas bolitas colocadas sobre una bandeja.
+
+La pregunta es:  
+> ¿Dónde deberíamos apoyar la bandeja para que quede perfectamente equilibrada?
+
+La respuesta es el **centroide** (o centro de masa) de los puntos.
+
+---
+
+### 📐 ¿Cómo se calcula?
+
+Si todos los puntos tienen la **misma masa**, el centroide se calcula simplemente como el promedio de sus coordenadas:
+
+```math
+\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
+\qquad
+\bar{y} = \frac{1}{n} \sum_{i=1}^{n} y_i
+```
+
+Es decir:
+
+- Sumar todas las coordenadas $x_i$ y dividir por el número total de puntos.
+- Hacer lo mismo con las coordenadas $y_i$.
+
+Este punto $(\bar{x}, \bar{y})$ es donde debería colocarse el soporte para que el sistema quede en equilibrio.
+
+---
+
+### ✨ Ejemplo simple
+
+Vamos a generar una pequeña nube de puntos distribuidos aleatoriamente, calcular su centroide y visualizarlo.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generar 15 puntos aleatorios en el plano
+np.random.seed(0)
+x = np.random.uniform(0, 10, 15)
+y = np.random.uniform(0, 5, 15)
+
+# Calcular el centroide
+x_bar = np.mean(x)
+y_bar = np.mean(y)
+
+# Graficar los puntos y su centroide
+plt.figure(figsize=(6,5))
+plt.scatter(x, y, label="Puntos (masa uniforme)")
+plt.scatter(x_bar, y_bar, color='red', s=100, label="Centroide")
+plt.axhline(y_bar, color='red', linestyle='--', alpha=0.5)
+plt.axvline(x_bar, color='red', linestyle='--', alpha=0.5)
+plt.title("Centroide de una nube de puntos")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.grid(True)
+plt.legend()
+plt.show()
+```
+
+---
+
+Este ejemplo nos muestra cómo el centroide **representa el “centro de gravedad” de todos los puntos**.  
+Si colocáramos una bandeja bajo ellos, el centroide sería el lugar más estable para apoyarla.
+
+En la siguiente sección, veremos qué pasa si tenemos una cantidad **infinita** de puntos.

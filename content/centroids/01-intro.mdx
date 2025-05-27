@@ -1,0 +1,46 @@
+---
+title: Introducción a los centroides
+sidebarTitle: Introducción a los centroides
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+# ¿Qué son los centroides?
+
+Imagina que tienes una bandeja, una regla o una lámina metálica de forma irregular, y la colocas sobre un solo dedo. ¿Dónde deberías apoyarla para que no se caiga?
+
+O piensa en una grúa que levanta una carga asimétrica, un robot que intenta agarrar un objeto sin que se incline, o un dron que intenta estabilizarse:  
+En todos estos casos, hay una misma pregunta clave:
+
+> ¿Dónde está el punto que "equilibra" todo el objeto?
+
+Ese punto se llama **centro de masa**, o **centroide** cuando trabajamos con objetos planos. Es el lugar donde se podría imaginar que está "concentrada" toda la masa del objeto.
+
+---
+
+## 📐 Pero no todo es física...
+
+El concepto de centroide también aparece en áreas inesperadas. Por ejemplo, cuando usamos algoritmos de *machine learning* para agrupar datos (como `k-means`), cada grupo se representa con un **centroide** que resume su posición.
+
+En otras palabras, cuando una máquina "entiende" que ciertas imágenes, sonidos o perfiles van juntos, lo hace calculando algo muy parecido a lo que veremos hoy:  
+> **El centro de un conjunto de puntos.**
+
+---
+
+## 🔍 ¿Qué haremos hoy?
+
+En este laboratorio vamos a aprender a calcular ese punto, primero en situaciones simples:
+
+- Cuando el objeto está formado por unos pocos puntos con masa.
+- Luego, cuando tenemos muchísimos puntos (una nube).
+- Y finalmente, veremos cómo este mismo concepto nos lleva naturalmente a usar **integrales** cuando la masa está repartida de forma continua.
+
+La próxima semana, veremos cómo todo esto se conecta con algoritmos de agrupamiento (clustering) y otras aplicaciones modernas de los centros de masa.
+
+Pero por ahora, partamos con una pregunta sencilla:
+
+> Si tengo puntos distribuidos en el plano, ¿cómo encuentro su punto de equilibrio?

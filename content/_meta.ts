@@ -16,6 +16,9 @@ const meta: MetaRecord = {
   "numeric-methods": {
     title: "Métodos numéricos",
   },
+  "centroids": {
+    title: "Aplicaciones: centroides",
+  },
 };
 
 export default meta;

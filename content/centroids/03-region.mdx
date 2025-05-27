@@ -1,0 +1,152 @@
+---
+title: Centroide de una región continua
+sidebarTitle: Centroide de una región continua
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+## 🧭 ¿Y si en vez de puntos tuviéramos una lámina continua?
+
+Hasta ahora trabajamos con un conjunto de puntos. Cada uno tenía una masa igual, y el centroide nos decía dónde debíamos apoyar el sistema para que quedara equilibrado.
+
+Pero ahora pensemos en algo más real:
+
+> Una bandeja delgada con forma curva, como una media luna o una lámina metálica flexible recortada con una figura suave. ¿Dónde deberíamos colocar un solo soporte para que no se incline?
+
+Aquí **ya no tenemos puntos separados**, sino una **masa repartida de manera continua** sobre toda la región. Es como tener infinitos puntos de masa, todos infinitamente pequeños, cubriendo una figura plana.
+
+📌 Por ejemplo: imaginen recortar con tijeras una pieza delgada de cartón con forma de parábola, o una tapa de horno con forma semicircular.  
+Esa pieza tiene **masa distribuida en toda su superficie**, y si la colocamos sobre una punta o un eje, hay un punto específico que la equilibrará: su centroide.
+
+¿Cómo calculamos ese punto si no hay puntos individuales que sumar?  
+La respuesta está en lo que venimos estudiando en este curso: **¡en las integrales!**
+
+
+## 📐 Centroide de una región plana definida por una curva
+
+Supongamos que una región está delimitada entre $y = 0$ y una curva $y = f(x)$, desde $x = a$ hasta $x = b$.  
+Si la densidad es constante (por ejemplo, una lámina homogénea), las coordenadas del centroide $(\bar{x}, \bar{y})$ se calculan con las siguientes fórmulas:
+
+- **Área total**:
+
+```math
+A = \int_a^b f(x)\, dx
+```
+
+- **Coordenadas del centroide**:
+
+```math
+\bar{x} = \frac{1}{A} \int_a^b x f(x)\, dx
+\qquad
+\bar{y} = \frac{1}{A} \int_a^b \frac{f(x)}{2} \cdot f(x)\, dx = \frac{1}{2A} \int_a^b [f(x)]^2\, dx
+```
+
+---
+
+### 🤔 ¿Por qué la fórmula de $\bar{y}$ es diferente?
+
+Para entenderlo, recordemos qué es un centroide:  
+> Es el promedio de las posiciones, **ponderado por la masa** de cada porción.
+
+En $\bar{x}$, imaginamos la región como formada por **barras verticales**:  
+Cada barra tiene base $dx$, altura $f(x)$ y masa proporcional a su área $f(x)\,dx$.  
+El centro de masa de esa barra está en $x$, así que:
+
+```math
+\bar{x} = \frac{1}{A} \int_a^b x \cdot f(x)\, dx
+```
+
+---
+
+Pero para $\bar{y}$, queremos encontrar el **centro vertical** de la región.  
+Aunque seguimos integrando respecto a $x$, la altura de cada barra es $f(x)$, y su **centro vertical** está a la mitad: en $f(x)/2$.
+
+Entonces el momento vertical se calcula como:
+
+```math
+\int_a^b \left(\frac{f(x)}{2}\right) \cdot f(x)\, dx
+```
+
+- El primer $f(x)/2$ representa la **altura promedio** de cada barra.
+- El segundo $f(x)$ representa su **área** (o masa).
+
+Y eso nos lleva a:
+
+```math
+\bar{y} = \frac{1}{A} \int_a^b \frac{f(x)}{2} \cdot f(x)\, dx = \frac{1}{2A} \int_a^b [f(x)]^2\, dx
+```
+
+
+
+## 🧪 Ejemplo: Centroide de una semicircunferencia
+
+Vamos a aplicar estas fórmulas a una región muy conocida:  
+la **semicircunferencia superior de radio 1**, dada por:
+
+```math
+f(x) = \sqrt{1 - x^2}, \quad x \in [-1, 1]
+```
+
+Visualmente, es la mitad superior de un círculo unitario.
+
+Como es simétrica respecto al eje $y$, esperamos que $\bar{x} = 0$.  
+Veamos qué ocurre con $\bar{y}$.
+
+```python
+from sympy import symbols, sqrt, integrate
+
+x = symbols('x')
+f = sqrt(1 - x**2)
+
+# Área bajo la semicircunferencia
+A = integrate(f, (x, -1, 1))
+
+# Coordenada x del centroide
+x_bar = (1 / A) * integrate(x * f, (x, -1, 1))
+
+# Coordenada y del centroide
+y_bar = (1 / (2 * A)) * integrate(f**2, (x, -1, 1))
+
+print("Área:", A.evalf())
+print("Centroide x̄:", x_bar.evalf())  # debería dar 0
+print("Centroide ȳ:", y_bar.evalf())
+```
+
+### 📊 Visualización
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definir la curva
+x_vals = np.linspace(-1, 1, 300)
+y_vals = np.sqrt(1 - x_vals**2)
+
+# Coordenadas del centroide
+x_bar = 0
+y_bar = 4 / (3 * np.pi)
+
+# Gráfico
+plt.figure(figsize=(6,6))
+plt.plot(x_vals, y_vals, label=r'$f(x) = \sqrt{1 - x^2}$')
+plt.fill_between(x_vals, 0, y_vals, alpha=0.3)
+plt.scatter(x_bar, y_bar, color='red', label='Centroide', zorder=5)
+plt.axhline(y_bar, color='red', linestyle='--', alpha=0.5)
+plt.title("Centroide de una semicircunferencia de radio 1")
+plt.axis('equal')
+plt.grid(True)
+plt.legend()
+plt.show()
+```
+
+---
+
+Este resultado confirma nuestra intuición:
+
+- El centroide está en $x = 0$ por **simetría**.
+- En $y \approx 0.4244$, un poco **por debajo del centro del círculo**, porque la masa está más concentrada cerca de la base.
+
+En el siguiente ejercicio, tú calcularás el centroide de otra región curva.
