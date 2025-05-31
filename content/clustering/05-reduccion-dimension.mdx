@@ -1,0 +1,133 @@
+---
+title: Reducción de dimensión
+sidebarTitle: Reducción de dimensión
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+
+## 🔽 ¿Por qué necesitamos reducir la dimensión?
+
+Hasta ahora, hemos aprendido que:
+
+- Cada imagen de un dígito escrito a mano se representa como un **vector de 64 números**.
+- Esos vectores viven en un espacio de **64 dimensiones**.
+- Cada imagen es, entonces, un **punto en $\mathbb{R}^{64}$**.
+
+Y nuestro objetivo es claro:
+
+> **Agrupar las imágenes que representan dígitos similares, sin saber de antemano qué número es cada una.**
+
+---
+
+### 👀 Pero... ¿cómo vemos esos grupos?
+
+Queremos saber si las imágenes del número "3" están cerca unas de otras, si los "7" se separan bien de los "1", etc.  
+Pero hay un problema:
+
+> **No podemos visualizar ni razonar directamente en 64 dimensiones.**
+
+No podemos "ver" cómo están distribuidos esos vectores en ese espacio tan grande.
+
+---
+
+### 🎯 La solución: proyectar los datos a 2 dimensiones
+
+Necesitamos transformar los datos a un espacio que **sí podamos visualizar**: un plano.  
+Queremos una función que lleve:
+
+```math
+\mathbb{R}^{64} \longrightarrow \mathbb{R}^2
+```
+
+Pero no cualquier transformación. Queremos una que **conserve la estructura**:  
+- Que mantenga separados los grupos que realmente son distintos.
+- Que coloque cerca los puntos que se parecen.
+
+---
+
+### 🧠 ¿Qué herramienta usaremos?
+
+Utilizaremos **PCA** (Análisis de Componentes Principales), una técnica matemática que:
+
+- Encuentra las **direcciones más importantes** del espacio original.
+- Proyecta los datos en esas direcciones, ordenadas según cuánta variación explican.
+- Permite tomar solo las **primeras 2 componentes principales**, y graficar los puntos allí.
+
+Así, convertimos nuestros vectores de 64 dimensiones en puntos de 2 dimensiones,  
+y podremos **visualizar los posibles grupos o clústeres** de dígitos.
+
+---
+
+> Esta visualización no solo nos ayuda a entender el comportamiento de los datos,  
+> sino que también nos permitirá aplicar algoritmos de agrupamiento (como **K-Means**) para que la máquina **descubra esos grupos automáticamente**.
+
+
+### 🧮 Un ejemplo numérico simple de PCA
+
+Supongamos que tenemos los siguientes datos, con solo dos características: ancho y largo de objetos.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Datos ficticios: cada fila es [ancho, largo]
+X = np.array([
+    [1.0, 1.1],
+    [2.0, 2.0],
+    [3.0, 2.9],
+    [4.0, 4.2],
+    [5.0, 5.1],
+])
+
+# Graficar los puntos
+plt.scatter(X[:, 0], X[:, 1], c='blue')
+plt.xlabel("Ancho")
+plt.ylabel("Largo")
+plt.title("Datos originales")
+plt.axis("equal")
+plt.grid(True)
+plt.show()
+```
+
+---
+
+### 🧠 ¿Qué observa PCA en estos datos?
+
+Aunque los datos están en 2D, **están casi alineados en diagonal**.  
+PCA nota que la mayor variación no está sobre el eje X ni sobre el eje Y, sino **en la dirección diagonal** (como si fuera una nueva regla inclinada).
+
+---
+
+### 🎯 ¿Qué hace PCA?
+
+- Encuentra ese eje diagonal (la "componente principal").
+- Proyecta los puntos sobre él.
+- Puede incluso **descartar la segunda dimensión**, si aporta muy poca variación.
+
+---
+
+### 📉 Resultado: datos en 1D
+
+```python
+from sklearn.decomposition import PCA
+
+# Aplicar PCA para reducir a 1 dimensión
+pca = PCA(n_components=1)
+X_reduced = pca.fit_transform(X)
+
+# Mostrar los datos proyectados
+print("Datos proyectados sobre la componente principal:")
+print(X_reduced)
+```
+
+> Aunque originalmente teníamos dos variables (ancho y largo), ahora cada objeto se representa con **un solo número**, su posición sobre la componente principal.
+
+---
+
+Este es exactamente el tipo de transformación que aplicaremos a los vectores de las imágenes:  
+reducir sus 64 dimensiones a solo 2, **conservando la estructura de los datos** para poder visualizarlos.

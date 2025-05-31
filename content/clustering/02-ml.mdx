@@ -1,0 +1,73 @@
+---
+title: ¿Qué es Machine Learning?
+sidebarTitle: ¿Qué es Machine Learning?
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+## 🤖 ¿Qué es el aprendizaje automático?
+
+En muchos problemas reales, definir reglas precisas para resolver una tarea es extremadamente difícil o incluso imposible.  
+Por ejemplo, ¿cómo escribirías un conjunto de instrucciones que permitan a un programa diferenciar entre la imagen de un gato y un perro?
+
+Aunque podríamos intentar codificar características manualmente (orejas, hocico, cola), la variabilidad entre imágenes hace que esta aproximación sea poco escalable.
+
+---
+
+### 🧠 Una alternativa: aprender a partir de los datos
+
+> **El aprendizaje automático (machine learning)** es una subdisciplina de la inteligencia artificial que estudia algoritmos capaces de **identificar patrones en los datos y generalizar a nuevos casos sin ser programados explícitamente para cada situación.**
+
+En lugar de definir reglas manuales, el modelo **ajusta automáticamente sus parámetros internos** para resolver una tarea, basándose en ejemplos concretos que se le proporcionan.
+
+Por ejemplo, si le mostramos muchas imágenes de ropa y le decimos cuáles son camisetas, pantalones o zapatos, el modelo analiza los patrones en los datos (como la forma, la textura o la intensidad de los píxeles) y **modifica sus parámetros internos** para que su función de predicción se aproxime cada vez más a la respuesta correcta.
+
+Este proceso se repite miles de veces:  
+cada vez que comete un error, **corrige** sus parámetros para **reducir ese error** en el futuro.
+
+En términos computacionales, este ajuste se hace resolviendo un problema de **optimización**, donde el modelo busca minimizar una función de error (también llamada función de pérdida) que mide qué tan lejos está su predicción de la respuesta real.
+
+
+---
+
+### ⚙️ Aplicaciones típicas
+
+- **Ingeniería**: detección de fallas en sensores, mantenimiento predictivo, modelado de sistemas físicos complejos.
+- **Ciencias de la computación**: reconocimiento de imágenes, traducción automática, sistemas de recomendación.
+- **Robótica**: control adaptativo, navegación autónoma.
+- **Ciberseguridad**: detección de anomalías o comportamientos inusuales.
+
+En todos estos casos, el sistema aprende a partir de los datos, utilizando herramientas matemáticas que ya conocen o conocerán pronto: álgebra lineal, cálculo, probabilidad y optimización.
+
+---
+
+### 📏 ¿Qué significa “aprender” para una máquina?
+
+Desde un punto de vista formal, aprender significa ajustar una función  
+$f: X \rightarrow Y$  
+que mapea entradas (como imágenes, señales o textos) a salidas (como categorías, decisiones o valores numéricos).
+
+Esa función puede tomar diversas formas: una recta, una red neuronal, un árbol de decisión, etc.  
+Muchas veces, estos modelos se construyen utilizando ideas que ustedes ya han estudiado, como:
+
+- El promedio de un conjunto de puntos.
+- La distancia entre vectores en un plano.
+- El punto medio o **centroide** de una región.
+
+---
+
+### 🌀 Idea central del laboratorio
+
+Hoy exploraremos una técnica llamada **clustering**, que permite a una máquina agrupar datos similares **sin conocer de antemano a qué grupo pertenecen**.
+
+Para hacerlo, el algoritmo se apoya en un concepto geométrico muy familiar para ustedes: el **centroide**, ese mismo punto de equilibrio que hemos calculado usando integrales:
+
+```math
+\bar{x} = \frac{1}{A} \int_a^b x f(x)\, dx
+```
+
+Lo que veremos hoy demuestra que las matemáticas que aprenden en cálculo no están aisladas: son fundamentales para que los sistemas inteligentes funcionen.

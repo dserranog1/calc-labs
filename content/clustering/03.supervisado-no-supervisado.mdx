@@ -1,0 +1,55 @@
+---
+title: Tipos de aprendizaje
+sidebarTitle: Tipos de aprendizaje
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+## 🧩 Tipos de aprendizaje: supervisado vs no supervisado
+
+En el aprendizaje automático existen diferentes tipos de problemas, según la información disponible durante el entrenamiento.
+
+---
+
+### 🎯 Aprendizaje supervisado
+
+En este caso, **cada dato de entrada viene acompañado de una etiqueta** o respuesta deseada.
+
+Por ejemplo:
+- Una imagen con la etiqueta “zapatilla”.
+- Una señal de temperatura con la indicación “falla”.
+- Un correo con la clasificación “spam”.
+
+La tarea del modelo es **aprender una función** que, dadas nuevas entradas similares, pueda predecir correctamente la etiqueta.
+
+Este tipo de aprendizaje es útil para tareas como:
+- Clasificación de imágenes.
+- Diagnóstico médico.
+- Detección de fraudes.
+- Traducción automática.
+
+---
+
+### 🔍 Aprendizaje no supervisado
+
+En este caso, **no se entregan etiquetas al modelo**. Solo se le proporciona un conjunto de datos, y el objetivo es descubrir **estructura o patrones ocultos**.
+
+Por ejemplo:
+- Agrupar canciones similares en Spotify sin saber su género.
+- Identificar distintos patrones de consumo eléctrico.
+- Detectar regiones densas de puntos en el espacio.
+
+Una técnica clásica de este tipo es el **clustering**, donde la máquina intenta agrupar datos que están “cerca” unos de otros, basándose en medidas de similitud.
+
+---
+
+### 🧠 ¿Y cuál usaremos hoy?
+
+> Hoy trabajaremos con un algoritmo de **aprendizaje no supervisado** llamado **K-Means**, que agrupa puntos similares sin conocer sus etiquetas reales.
+
+Este algoritmo necesita calcular el **centroide** de cada grupo que va formando, lo cual lo conecta directamente con lo que hemos aprendido en cálculo.
+

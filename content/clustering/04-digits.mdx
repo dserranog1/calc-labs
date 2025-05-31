@@ -1,0 +1,191 @@
+---
+title: Digits MINST
+sidebarTitle: Digits MINST
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+## 🧾 Nuestro conjunto de datos: dígitos escritos a mano
+
+Hoy trabajaremos con un conjunto real de datos llamado **Digits MNIST**.  
+Contiene imágenes pequeñas de **números del 0 al 9**, escritas a mano por distintas personas.
+
+Pero antes de usar estas imágenes para hacer clustering, detengámonos a entender cómo se representa una imagen dentro de un computador.
+
+---
+
+### 🖼️ ¿Qué es una imagen digital?
+
+Una imagen digital está formada por **una cuadrícula de píxeles**.  
+Cada píxel es una pequeña unidad que tiene un color o nivel de intensidad.
+
+En el caso de **imágenes en escala de grises**, cada píxel se representa por **un solo número** que indica qué tan claro u oscuro es ese punto:
+
+- Un valor **bajo** (cerca de 0) representa un píxel negro.
+- Un valor **alto** (cerca de 16 o 255, según el rango) representa un píxel blanco.
+
+---
+
+### 🧮 Nuestro caso: imágenes de 8×8
+
+En el conjunto **Digits MNIST**, cada imagen tiene tamaño **8 filas × 8 columnas**.  
+Es decir, una cuadrícula de 64 píxeles en total.
+
+Cada imagen se puede ver como una matriz:
+
+```python
+[
+  [0, 0, 2, 13, 5, 0, 0, 0],
+  [0, 0, 13, 15, 10, 0, 0, 0],
+  [0, 3, 15, 7, 0, 0, 0, 0],
+  ...
+]
+```
+
+Esta matriz representa cómo se ve el número “3” desde el punto de vista de la máquina.
+
+---
+
+### 🧠 ¿Qué hace la computadora con esta matriz?
+
+Para procesarla, la computadora **no ve una imagen**.  
+Lo que hace es **convertir esta matriz en una lista de números**: un vector con 64 valores.
+
+```python
+[0, 0, 2, 13, 5, 0, 0, 0, 0, 0, 13, 15, 10, 0, 0, 0, ..., 0]
+```
+
+Este vector es lo que usamos como entrada para los algoritmos de machine learning.
+
+> Cada imagen es, entonces, **un punto en un espacio de 64 dimensiones**.
+
+Y ese será el punto de partida para lo que viene a continuación.
+
+
+### 📷 Visualizando una imagen creada a mano
+
+Veamos cómo se construye una imagen digital simple desde una matriz de números.
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Imagen 8x8 que representa un "3"
+image = np.array([
+    [16, 16,  4,  2,  2,  4, 16, 16],
+    [16, 10, 16, 16, 16, 16,  6, 16],
+    [16, 16, 16, 16, 16, 16,  6, 16],
+    [16, 16,  8,  8,  8,  8, 16, 16],
+    [16, 16, 16, 16, 16, 16,  6, 16],
+    [16,  8, 16, 16, 16, 16,  6, 16],
+    [16, 16,  4,  4,  4,  4, 16, 16],
+    [16, 16, 16, 16, 16, 16, 16, 16],
+])
+
+# Mostrar la matriz
+print("Matriz de intensidades (0 = negro, 16 = blanco):")
+print(image)
+
+# Visualizar la imagen (invertimos el mapa de colores para que 0 sea negro)
+plt.imshow(image, cmap="gray_r", interpolation="nearest")
+plt.title("Dígito 3 hecho a mano")
+plt.axis("off")
+plt.show()
+```
+
+> Esta imagen es una cuadrícula de 8x8 píxeles.  
+> Cada número representa el nivel de intensidad en escala de grises:  
+> cuanto más alto el número, más claro el píxel.
+
+
+### 🔢 De imagen a vector
+
+Para que los algoritmos de machine learning puedan procesar una imagen, deben convertirla en una **estructura que puedan manipular matemáticamente**: un vector.
+
+> La imagen de 8×8 se transforma en un vector de 64 números:  
+> simplemente se “aplanan” las filas una tras otra.
+
+```python
+# Aplanar la imagen a un vector de 64 dimensiones
+vector = image.flatten()
+
+# Mostrar el vector resultante
+print("Vector plano de la imagen (longitud 64):")
+print(vector)
+```
+
+Este vector representa un **punto en un espacio de 64 dimensiones**.  
+Cada componente del vector corresponde a la intensidad de un píxel.
+
+> La computadora **no “ve” una imagen como nosotros**, sino como una lista de números que pueden ser comparados, agrupados o analizados.
+
+Así es como las imágenes entran al mundo del cálculo y el álgebra lineal: como vectores de alta dimensión.
+
+
+## 🔁 Recapitulación: de imagen a aprendizaje automático
+
+Hasta ahora, hemos construido a mano una imagen del número **3**, representada como una cuadrícula de píxeles en escala de grises.  
+Esa imagen, para la máquina, no es más que una **matriz de números**.
+
+Convertimos esa matriz en un **vector de 64 componentes**:  
+un punto en un espacio de 64 dimensiones.
+
+---
+
+### 🤖 ¿Qué busca hacer el aprendizaje automático con ese vector?
+
+El aprendizaje automático (machine learning) **parte de datos representados numéricamente**, como este vector, para que la máquina pueda:
+
+- Detectar patrones.
+- Agrupar ejemplos similares.
+- Predecir resultados.
+- Clasificar nuevas entradas.
+
+---
+
+### 🧭 ¿Cómo se diferencia el aprendizaje supervisado del no supervisado?
+
+#### ✅ En aprendizaje supervisado:
+
+> Cada imagen viene acompañada de su **etiqueta verdadera**.  
+> Por ejemplo: el vector que representa al "3" viene con la etiqueta `"3"`.
+
+La tarea del modelo es **aprender una función** que asocie vectores con etiquetas:
+
+```math
+f(\text{imagen}) \approx \text{etiqueta}
+```
+
+Matemáticamente, se busca ajustar una función  
+$f: \mathbb{R}^{64} \rightarrow \{0, 1, ..., 9\}$  
+que prediga correctamente el número que aparece en la imagen.
+
+---
+
+#### 🔍 En aprendizaje no supervisado:
+
+> Solo tenemos los vectores.  
+> No sabemos a qué dígito corresponde cada imagen.
+
+El objetivo es **descubrir estructura** en los datos:  
+¿Existen grupos naturales de imágenes parecidas?  
+¿Podemos agrupar los "3" aunque no sepamos que son "3"?
+
+Aquí no buscamos una función de clasificación, sino **una manera de organizar los datos**.
+
+---
+
+### 🔢 ¿Y qué rol juegan las matemáticas?
+
+- El vector que representa la imagen vive en el espacio $\mathbb{R}^{64}$.
+- Podemos medir **distancias** entre vectores usando geometría.
+- Podemos calcular el **promedio** (centroide) de varios vectores.
+- Podemos usar **álgebra lineal** para transformar y proyectar los datos.
+
+Todas estas herramientas permitirán que la máquina **encuentre grupos** y **aprenda patrones**, incluso **sin saber qué está viendo**.
+
+> Y esa será la clave del resto del laboratorio:  
+> **ver cómo, con herramientas que ya conocen, una máquina puede comenzar a descubrir estructura en los datos.**

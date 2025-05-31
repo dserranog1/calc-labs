@@ -19,6 +19,9 @@ const meta: MetaRecord = {
   "centroids": {
     title: "Aplicaciones: centroides",
   },
+  "clustering": {
+    title: "Centroides + ML",
+  },
 };
 
 export default meta;
