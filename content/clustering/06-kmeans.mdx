@@ -1,0 +1,318 @@
+---
+title: K-Means y centroides
+sidebarTitle: K-Means y centroides
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+## 🧩 Aplicando todo lo aprendido: agrupando dígitos reales
+
+Hasta ahora hemos entendido:
+
+- Cómo representar imágenes como vectores.
+- Qué significa que esos vectores vivan en un espacio de alta dimensión.
+- Por qué necesitamos proyectarlos a 2 dimensiones para poder analizarlos.
+- Y cómo PCA nos permite hacer esa proyección conservando estructura.
+
+Pero aún no hemos respondido la pregunta clave de este laboratorio:
+
+> **¿Puede una máquina aprender a agrupar los dígitos escritos a mano sin saber qué número es cada uno?**
+
+Esa es precisamente la tarea del algoritmo **K-Means**, una técnica de **aprendizaje no supervisado** que intentaremos aplicar sobre los dígitos reales.
+
+---
+
+### 🎯 Nuestro objetivo final
+
+Vamos a:
+
+1. Cargar un conjunto de imágenes reales de dígitos (de 0 a 9).
+2. Representarlas como vectores.
+3. Aplicar **PCA** para reducirlas a 2 dimensiones.
+4. Aplicar **K-Means** para que la máquina **descubra los grupos** por sí sola.
+5. Visualizar los grupos y los **centroides** calculados por el algoritmo.
+
+En el proceso, veremos cómo el concepto de **centroide**, que hemos estudiado en cálculo, se convierte en una herramienta clave para que una máquina pueda aprender a organizar datos complejos.
+
+Ahora sí, pongamos todo en acción.
+
+---
+
+### 🔹 Paso 1 — Cargar el dataset de dígitos
+
+Primero, vamos a cargar el conjunto de datos `digits`, que viene incluido en la librería `scikit-learn`. Este dataset contiene 1797 imágenes de dígitos escritos a mano, cada una de **8×8 píxeles**, representando números del 0 al 9.
+
+```python
+from sklearn.datasets import load_digits
+
+# Cargar el dataset
+digits = load_digits()
+
+# Inspeccionar su contenido
+print("Cantidad de imágenes:", len(digits.images))
+print("Dimensión de cada imagen:", digits.images[0].shape)
+print("Etiqueta del primer dígito:", digits.target[0])
+```
+
+> Cada imagen es una matriz de $8 \times 8$, y cada etiqueta es un número del 0 al 9 que indica qué dígito representa esa imagen.
+
+---
+
+### 🔹 Paso 2 — Visualizar algunas imágenes
+
+Vamos a mostrar algunas imágenes reales para que puedas ver cómo se ven los datos con los que vamos a trabajar.
+
+```python
+import matplotlib.pyplot as plt
+
+# Mostrar las primeras 10 imágenes con sus etiquetas
+fig, axes = plt.subplots(1, 10, figsize=(10, 3))
+for i, ax in enumerate(axes):
+    ax.imshow(digits.images[i], cmap="gray_r")  # fondo blanco, trazo negro
+    ax.set_title(digits.target[i])
+    ax.axis("off")
+plt.suptitle("Ejemplos del dataset Digits")
+plt.show()
+```
+
+> Como puedes ver, cada número está escrito de forma distinta.  
+> Lo interesante será ver si la máquina es capaz de descubrir que hay grupos… sin saber aún qué número representa cada imagen.
+
+
+### 🔹 Paso 3 — Convertir las imágenes a vectores y aplicar PCA
+
+Sabemos que cada imagen es una matriz de 8 × 8 píxeles.  
+Para aplicar algoritmos como PCA y K-Means, necesitamos representar cada imagen como un **vector de 64 componentes** (una fila con todos los píxeles).
+
+> A este proceso se le llama *flattening*, y es simplemente reorganizar los valores de la matriz en una sola fila.
+
+```python
+from sklearn.decomposition import PCA
+
+# Aplanar las imágenes (de matriz 8x8 a vector de 64)
+X = digits.data  # matriz de tamaño (1797, 64)
+
+print("Tamaño del conjunto de datos:", X.shape)
+```
+
+---
+
+Ahora que tenemos los datos como vectores en un espacio de 64 dimensiones, aplicamos **PCA** para reducirlos a solo 2 dimensiones y poder graficarlos.
+
+```python
+# Aplicar PCA para reducir de 64D a 2D
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X)
+
+print("Tamaño de los datos proyectados:", X_pca.shape)
+```
+
+> Cada imagen ahora es un punto en $\mathbb{R}^2$ (un plano), lo que nos permitirá **ver los datos y buscar grupos visualmente**.
+
+
+### 🔹 Paso 4 — Visualizar los dígitos proyectados en 2D
+
+Ya que cada imagen ha sido reducida a un punto en 2 dimensiones, podemos graficar todos los datos y observar si existen **agrupamientos naturales**.
+
+Por ahora, usaremos las **etiquetas verdaderas** solo para colorear los puntos y facilitar la observación.  
+Recuerda: más adelante usaremos K-Means **sin estas etiquetas**.
+
+```python
+# Visualizar los puntos proyectados con colores según su etiqueta real
+plt.figure(figsize=(10, 8))
+scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=digits.target, cmap="tab10", s=15)
+plt.xlabel("Componente principal 1")
+plt.ylabel("Componente principal 2")
+plt.title("Dígitos proyectados a 2D con PCA")
+plt.colorbar(scatter, label="Etiqueta real (solo para visualización)")
+plt.grid(True)
+plt.show()
+```
+
+> Como puedes ver, ciertos grupos ya empiezan a distinguirse:  
+> algunos dígitos como los "0", "1" o "6" tienden a estar **más juntos**,  
+> mientras que otros se mezclan un poco más.
+
+Este gráfico nos da una idea visual de que **sí existen estructuras o clústeres** en los datos, aunque aún no hemos usado ningún algoritmo para descubrirlos.
+
+> Y ahora que los podemos ver… **es momento de dejar que la máquina intente agruparlos por sí sola**.
+
+
+### 🤖 K-Means: un algoritmo para descubrir grupos
+
+Ya tenemos los datos de nuestras imágenes de dígitos representados como puntos en un plano.  
+Ahora queremos que la máquina **descubra por sí sola** los grupos o clústeres de dígitos que están más cerca entre sí.
+
+Para esto, usaremos un algoritmo llamado **K-Means**.
+
+---
+
+### 🧠 ¿Qué hace K-Means?
+
+K-Means intenta **dividir los datos en $k$ grupos (clústeres)**, de forma que:
+
+- Los puntos **dentro de un mismo grupo estén lo más cerca posible entre sí**, y
+- Los puntos de **grupos distintos estén lo más separados posible**.
+
+Lo hace repitiendo dos pasos simples:
+
+1. **Asignación**: cada punto se asigna al **centroide más cercano**.
+2. **Actualización**: cada centroide se recalcula como el **promedio de todos los puntos asignados** a su grupo.
+
+Este proceso se repite hasta que los grupos ya no cambian.
+
+---
+
+### 📍 ¿Qué es un centroide?
+
+El **centroide** es el punto que representa “el centro” de un grupo.  
+Matemáticamente, si un grupo contiene los puntos $x_1, x_2, ..., x_n$, su centroide es:
+
+```math
+\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i
+```
+
+> Es el mismo concepto de punto medio o punto de equilibrio que estudiamos en cálculo, pero aplicado aquí al conjunto de puntos en un clúster.
+
+---
+
+> Lo interesante es que K-Means **no conoce las etiquetas reales** (los números) — solo ve los vectores en el plano y trata de organizarlos.
+
+Ahora vamos a aplicarlo con $k = 10$, ya que sabemos que nuestro conjunto contiene 10 clases distintas (del 0 al 9),  
+y observaremos si la máquina logra descubrir esos grupos usando únicamente distancias y promedios.
+
+
+### 🔹 Paso 5 — Aplicar K-Means y visualizar los clústeres
+
+Usaremos la implementación de `KMeans` de `scikit-learn`, indicando que queremos dividir los datos en **10 grupos**.
+
+```python
+from sklearn.cluster import KMeans
+
+# Aplicar K-Means con 10 clústeres
+kmeans = KMeans(n_clusters=10, random_state=42)
+kmeans.fit(X_pca)
+
+# Etiquetas asignadas por el algoritmo
+labels = kmeans.labels_
+
+# Coordenadas de los centroides descubiertos
+centroids = kmeans.cluster_centers_
+```
+
+---
+
+Ahora graficamos los puntos con colores según el clúster al que fueron asignados,  
+y dibujamos los centroides en el plano para ver dónde están ubicados.
+
+```python
+plt.figure(figsize=(10, 8))
+scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=labels, cmap="tab10", s=15)
+plt.scatter(centroids[:, 0], centroids[:, 1], c='black', s=100, marker='X', label='Centroides')
+plt.xlabel("Componente principal 1")
+plt.ylabel("Componente principal 2")
+plt.title("Clústeres encontrados por K-Means")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+> Los puntos de colores representan los grupos descubiertos.  
+> Las **X negras** son los **centroides**, calculados como el promedio de cada grupo de puntos.
+
+---
+
+A pesar de no haber visto ninguna etiqueta real, el algoritmo ha agrupado muchos dígitos similares juntos.  
+Esto muestra cómo, usando solo la noción de **distancia** y el concepto de **centroide**, una máquina puede **organizar y entender datos complejos**.
+
+
+
+### 🔍 Paso 6 — Comparar los clústeres con las etiquetas reales
+
+Aunque K-Means **no usó las etiquetas reales**, podemos comparar los clústeres que encontró con las verdaderas clases (los dígitos del 0 al 9) para ver **qué tan bien agrupó** los datos.
+
+Usaremos una **matriz de contingencia** para comparar las asignaciones de K-Means con las etiquetas originales.
+
+```python
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import pandas as pd
+
+# Crear matriz de confusión entre etiquetas reales y clústeres asignados
+conf_mat = confusion_matrix(digits.target, labels)
+
+# Mostrar como heatmap
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_mat, annot=True, fmt="d", cmap="Blues", xticklabels=range(10), yticklabels=range(10))
+plt.xlabel("Clúster asignado por K-Means")
+plt.ylabel("Etiqueta real")
+plt.title("Matriz de comparación: etiquetas reales vs clústeres")
+plt.show()
+```
+
+---
+
+### 📊 Métrica de rendimiento más intuitiva: exactitud por mayoría de voto
+
+Para cada clúster hallado por K-Means, podemos ver qué dígito real aparece más frecuentemente dentro de ese clúster.  
+Luego, asumimos que el clúster representa ese dígito, y calculamos **qué porcentaje del total fue correctamente asignado**.
+
+```python
+from scipy.stats import mode
+import numpy as np
+
+# Crear un arreglo vacío para las predicciones corregidas
+new_labels = np.zeros_like(labels)
+
+# Para cada clúster, asignar la etiqueta real más común (voto mayoritario)
+for i in range(10):
+    mask = labels == i
+    if np.any(mask):  # evitar clústeres vacíos
+        new_labels[mask] = mode(digits.target[mask], keepdims=False).mode
+
+# Calcular el accuracy final
+accuracy = np.mean(new_labels == digits.target)
+print(f"Exactitud (accuracy) del agrupamiento: {accuracy:.2%}")
+```
+
+> Esta métrica responde directamente a la pregunta:  
+> **¿Qué porcentaje de las imágenes fueron correctamente agrupadas, si interpretamos cada clúster como un número?**
+
+---
+
+### 🧠 Conclusión
+
+A pesar de no haber usado etiquetas reales, K-Means logró identificar grupos que **en muchos casos corresponden bien con los dígitos reales**.
+
+- Algunos clústeres coinciden fuertemente con una sola clase (por ejemplo, los "0" o los "1").
+- Otros se mezclan más, especialmente si dos dígitos se escriben de forma parecida.
+
+Esto muestra tanto el poder como la limitación del aprendizaje no supervisado:
+
+> ✅ K-Means puede descubrir patrones sin saber qué representan.  
+> ⚠️ Pero no siempre entiende el significado semántico de los datos, solo su geometría.
+
+En este laboratorio hemos visto cómo **una idea sencilla como el centroide**, que ya dominamos en cálculo, se convierte en una herramienta central para que una máquina pueda **entender y organizar datos reales**.
+
+
+## 🧠 Preguntas para reflexionar
+
+Antes de cerrar el laboratorio, responde brevemente las siguientes preguntas. No se espera una respuesta perfecta: lo importante es que puedas expresar lo que comprendiste y lo que te llamó la atención.
+
+---
+
+1. ¿Por qué representamos las imágenes como vectores antes de usarlas en el algoritmo?
+
+2. ¿Para qué usamos PCA en este laboratorio? ¿Qué problema resuelve?
+
+3. ¿Qué papel cumple el **centroide** en el algoritmo K-Means? ¿En qué se parece al que usamos en cálculo?
+
+4. ¿K-Means usó las etiquetas reales para agrupar los datos? ¿Cómo logró formar grupos sin saber qué número era cada imagen?
+
+5. El algoritmo agrupó correctamente cerca del 57 % de los datos. ¿Te parece un buen resultado? ¿Por qué?
+
+6. ¿En qué otros contextos del mundo real podrías aplicar un algoritmo como K-Means?
+
