@@ -16,11 +16,14 @@ const meta: MetaRecord = {
   "numeric-methods": {
     title: "Métodos numéricos",
   },
-  "centroids": {
+  centroids: {
     title: "Aplicaciones: centroides",
   },
-  "clustering": {
+  clustering: {
     title: "Centroides + ML",
+  },
+  polar: {
+    title: "Coordenadas polares",
   },
 };
 

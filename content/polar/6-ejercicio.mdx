@@ -1,0 +1,79 @@
+---
+title: Ejercicio
+sidebarTitle: Ejercicio
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+
+
+## Ejercicio
+
+Basados en la curva que graficada anteriormente:
+
+```math
+r(\theta) = 1 + \cos(\theta)
+```
+
+Ahora trabajarán con una nueva curva polar:
+
+```math
+r(\theta) = \cos(2\theta)
+```
+
+Esta curva tiene forma de **flor polar** con varios pétalos.
+
+---
+
+### 📌 Instrucciones
+
+
+1. **Grafiquen la curva** $r = \cos(2\theta)$, tal como hicimos con la anterior.  
+   Utilicen un intervalo de $\theta$ entre $0$ y $2\pi$.
+
+2. **Identifiquen el intervalo de integración adecuado** para calcular el área de **un solo pétalo**.  
+   Justifiquen su elección basados en la simetría y el momento en que $r = 0$.
+
+3. **Escriban la integral que deben resolver** para hallar el área de ese pétalo, usando la fórmula del área en coordenadas polares:
+
+```math
+A = \int_{\theta_1}^{\theta_2} \frac{1}{2} [r(\theta)]^2\, d\theta
+```
+
+4. **Expresen el integrando de forma simplificada** usando identidades trigonométricas.  
+   Luego, escriban la **antiderivada** que van a evaluar.
+
+5. **Calculen el valor final de la integral**, y comparenlo con lo que esperaban visualmente.  
+   ¿Es coherente con el área que se ve en la gráfica?
+
+---
+
+### 📝 Notas
+
+- Si terminan pronto, intenten **hallar el área total** encerrada por toda la flor.
+
+---
+
+### 🧪 Recordatorio: código para graficar la curva
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+theta = np.linspace(0, 2*np.pi, 1000)
+r = np.cos(2*theta)
+x = r * np.cos(theta)
+y = r * np.sin(theta)
+
+plt.figure(figsize=(6,6))
+plt.plot(x, y, color='purple')
+plt.fill(x, y, alpha=0.2, color='purple')
+plt.title(r"Curva polar: $r = \cos(2\theta)$")
+plt.gca().set_aspect('equal')
+plt.grid(True)
+plt.show()
+```

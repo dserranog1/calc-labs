@@ -1,0 +1,109 @@
+---
+title: Ejemplos concretos de puntos
+sidebarTitle: Ejemplos concretos de puntos
+---
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+#  Ejemplos concretos de puntos
+
+Ahora que sabemos cómo convertir entre coordenadas cartesianas y polares, practiquemos con algunos ejemplos representativos.
+
+
+
+---
+
+### 📌 Ejemplo 1: De polares a cartesianas
+
+Supongamos el punto en coordenadas polares:
+
+```math
+(r, \theta) = (2, \frac{\pi}{3})
+```
+
+Aplicamos las fórmulas:
+
+```math
+x = r \cos(\theta) = 2 \cos\left(\frac{\pi}{3}\right) = 2 \cdot \frac{1}{2} = 1
+\\
+y = r \sin(\theta) = 2 \sin\left(\frac{\pi}{3}\right) = 2 \cdot \frac{\sqrt{3}}{2} = \sqrt{3}
+```
+
+Entonces, el punto cartesiano es $(1, \sqrt{3})$.
+
+---
+
+### 📌 Ejemplo 2: De cartesianas a polares
+
+Ahora partimos del punto:
+
+```math
+(x, y) = (-\sqrt{3}, -1)
+```
+
+Calculamos:
+
+```math
+r = \sqrt{x^2 + y^2} = \sqrt{3 + 1} = 2
+\\
+\theta = \text{atan2}(-1, -\sqrt{3}) = \frac{5\pi}{3} \text{ (o } -\frac{\pi}{3} \text{)}
+```
+
+Entonces, el punto polar es $(2, 5\pi/3)$.
+
+---
+
+### 🔍 Visualización de ejemplos
+
+El siguiente código grafica cada punto en el plano, mostrando tanto su representación cartesiana como polar.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Lista de ejemplos: (x, y), o (r, θ)
+ejemplos = [
+    {"tipo": "polar", "r": 2, "theta": np.pi/3},
+    {"tipo": "cartesiano", "x": -np.sqrt(3), "y": -1},
+    {"tipo": "polar", "r": 1, "theta": 3*np.pi/2},
+    {"tipo": "cartesiano", "x": 0, "y": 2}
+]
+
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.set_aspect('equal')
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+ax.set_title("Representación de puntos en ambos sistemas")
+ax.grid(True)
+ax.axhline(0, color='gray')
+ax.axvline(0, color='gray')
+
+for punto in ejemplos:
+    if punto["tipo"] == "polar":
+        r = punto["r"]
+        theta = punto["theta"]
+        x = r * np.cos(theta)
+        y = r * np.sin(theta)
+        label = f"(r={r:.1f}, θ={theta:.2f})"
+    else:
+        x = punto["x"]
+        y = punto["y"]
+        r = np.sqrt(x**2 + y**2)
+        theta = np.arctan2(y, x)
+        label = f"(x={x:.1f}, y={y:.1f})"
+
+    ax.plot(x, y, 'o')
+    ax.annotate(label, (x, y), textcoords="offset points", xytext=(5, 5))
+
+plt.show()
+```
+
+---
+
+### 🧠 Observaciones clave
+
+- Múltiples coordenadas polares pueden describir el **mismo punto**.
+- Si $r = 0$, el punto es el origen sin importar el valor de $\theta$.
+- Si $\theta$ es mayor a $2\pi$, el punto sigue siendo válido (una vuelta adicional).

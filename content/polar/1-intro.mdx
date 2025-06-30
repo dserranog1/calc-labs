@@ -1,0 +1,318 @@
+---
+title: Introducción
+sidebarTitle: Introducción
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+# 🧭 Introducción: ¿Por qué coordenadas polares?
+
+> _"No todos los caminos se recorren en línea recta, ni todas las curvas se entienden bien con ejes x y y."_
+
+En cursos anteriores hemos trabajado principalmente en el plano cartesiano, donde cada punto se representa como una pareja $(x, y)$ que indica su posición horizontal y vertical. Este sistema funciona muy bien para describir líneas rectas, rectángulos o incluso parábolas.  
+Sin embargo, hay figuras y situaciones donde el uso de coordenadas cartesianas puede complicar innecesariamente los cálculos o la representación gráfica.
+
+Por ejemplo:
+
+- Un **círculo** con centro en el origen requiere la ecuación $x^2 + y^2 = r^2$, que no es lineal ni fácilmente integrable en muchos casos.
+- Una **espiral** como la que traza un ventilador o una galaxia no se describe fácilmente en cartesianas.
+- Una **flor** simétrica de varios pétalos (como patrones en antenas o gráficos polares en electrónica) tiene una expresión complicada en $(x, y)$, pero puede escribirse elegantemente como $r = \cos(k\theta)$.
+
+En estos casos, utilizar un sistema que describa directamente **distancia al origen** y **ángulo de orientación** puede ser más natural.
+
+
+## 📌 Coordenadas polares: la idea clave
+
+En lugar de describir un punto por su desplazamiento horizontal y vertical, el sistema polar lo hace usando:
+
+- $r$: la distancia del punto al origen.
+- $\theta$: el ángulo (en radianes) que forma la línea del origen al punto con el eje $x$ positivo, medido en sentido antihorario.
+
+Representamos entonces cada punto como una pareja polar:
+
+```math
+(r, \theta)
+```
+
+Por ejemplo, el punto $(1, \pi/4)$ en coordenadas polares está a una unidad del origen, en dirección de $45^\circ$ respecto al eje $x$.
+
+Este cambio de perspectiva también nos obliga a repensar cómo definimos y calculamos áreas, curvas, simetrías y regiones en el plano.
+
+> En este laboratorio exploraremos este nuevo sistema paso a paso: aprenderemos a visualizar curvas, a convertir expresiones entre sistemas y a **calcular áreas** encerradas por curvas en coordenadas polares.
+
+---
+
+### 🔍 Visualización: ¿Qué tan natural es cada sistema?
+
+A continuación comparamos cómo se describe y visualiza una misma curva usando coordenadas cartesianas y polares.
+
+#### 🔵 1. Círculo con centro en el origen
+
+**En coordenadas cartesianas:** $x^2 + y^2 = 1$
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-1.1, 1.1, 400)
+y = np.linspace(-1.1, 1.1, 400)
+X, Y = np.meshgrid(x, y)
+Z = X**2 + Y**2
+
+plt.contour(X, Y, Z, levels=[1], colors='blue')
+plt.gca().set_aspect('equal')
+plt.title("Círculo en coordenadas cartesianas: $x^2 + y^2 = 1$")
+plt.grid(True)
+plt.show()
+```
+
+**En coordenadas polares:** $r = 1$
+
+```python
+theta = np.linspace(0, 2*np.pi, 1000)
+r = np.ones_like(theta)
+
+x = r * np.cos(theta)
+y = r * np.sin(theta)
+
+plt.plot(x, y, color='green')
+plt.gca().set_aspect('equal')
+plt.title("Círculo en coordenadas polares: $r = 1$")
+plt.grid(True)
+plt.show()
+```
+
+---
+
+#### 🌪️ 2. Espiral de Arquímedes
+
+**En coordenadas polares:** $r = \theta$
+
+```python
+theta = np.linspace(0, 4 * np.pi, 1000)
+r = theta
+
+x = r * np.cos(theta)
+y = r * np.sin(theta)
+
+plt.plot(x, y, color='purple')
+plt.gca().set_aspect('equal')
+plt.title("Espiral de Arquímedes: $r = \\theta$")
+plt.grid(True)
+plt.show()
+```
+
+---
+
+#### 🌸 3. Rosa polar (4 pétalos)
+
+**En coordenadas polares:** $r = \cos(2\theta)$
+
+```python
+theta = np.linspace(0, 2 * np.pi, 1000)
+r = np.cos(2 * theta)
+
+x = r * np.cos(theta)
+y = r * np.sin(theta)
+
+plt.plot(x, y, color='red')
+plt.gca().set_aspect('equal')
+plt.title("Rosa polar: $r = \\cos(2\\theta)$")
+plt.grid(True)
+plt.show()
+```
+
+---
+
+Como pueden ver, muchas curvas se expresan de forma más simple y elegante en el sistema polar.  
+Esto no solo facilita su visualización, sino también su análisis matemático, como veremos más adelante al calcular áreas encerradas por estas curvas.
+
+
+
+## 📐 ¿Área bajo la curva o área encerrada por la curva?
+
+Cuando hablamos de integrales en cálculo, la mayoría de nosotros piensa inmediatamente en esto:
+
+```math
+\int_a^b f(x)\, dx
+```
+
+Esta integral se interpreta como el **área bajo la curva** $y = f(x)$, es decir, el área comprendida entre la gráfica de la función y el eje $x$, desde $x = a$ hasta $x = b$.
+
+Esta interpretación es muy útil cuando trabajamos con funciones explícitas $y = f(x)$.  
+Pero, ¿qué pasa cuando tenemos **curvas más complejas** que no se pueden describir así?
+
+---
+
+### 🔄 Cambio de perspectiva: curvas cerradas
+
+Consideremos, por ejemplo:
+
+- Un círculo de radio 1 centrado en el origen: $x^2 + y^2 = 1$
+- Una flor polar: $r = \cos(2\theta)$
+
+Estas **no son funciones en el sentido habitual**, ya que:
+- No pasan la prueba de la recta vertical.
+- No se pueden escribir como $y = f(x)$ o $x = f(y)$ de forma simple.
+
+Aun así, **en ambos casos podemos preguntarnos por el área encerrada por la curva**, no “el área bajo la curva”.
+
+---
+
+### ✅ ¿Qué área queremos calcular entonces?
+
+- Para funciones $f(x)$ → el área bajo la curva.
+- Para curvas cerradas en coordenadas polares → el área encerrada por la curva.
+
+En coordenadas polares, usamos una fórmula diferente que **acumula sectores circulares** en lugar de rectángulos:
+
+```math
+A = \int_{\theta_1}^{\theta_2} \frac{1}{2} \left[r(\theta)\right]^2 \, d\theta
+```
+
+Esta fórmula nos da el área encerrada entre el eje polar ($\theta = 0$), la curva $r(\theta)$ y el ángulo $\theta$.
+
+---
+
+### 🔍 Visualización: ¿Área bajo o área encerrada?
+
+El siguiente código compara visualmente:
+
+- El área **bajo** una función $f(x)$.
+- El área **encerrada** por una curva polar $r(\theta)$.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Área bajo la curva y = f(x)
+x = np.linspace(0, np.pi, 300)
+y = np.sin(x)
+
+plt.figure(figsize=(12, 5))
+
+# Subplot 1: Área bajo f(x)
+plt.subplot(1, 2, 1)
+plt.plot(x, y, label=r'$y = \sin(x)$', color='blue')
+plt.fill_between(x, 0, y, alpha=0.3, color='blue')
+plt.title("Área bajo la curva $y = \sin(x)$")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.grid(True)
+plt.legend()
+
+# Subplot 2: Área encerrada por r = cos(2θ)
+theta = np.linspace(0, 2*np.pi, 1000)
+r = np.cos(2 * theta)
+x_p = r * np.cos(theta)
+y_p = r * np.sin(theta)
+
+plt.subplot(1, 2, 2)
+plt.plot(x_p, y_p, color='red', label=r'$r = \cos(2\theta)$')
+plt.fill(x_p, y_p, alpha=0.3, color='red')
+plt.title("Área encerrada por la curva $r = \cos(2\\theta)$")
+plt.axis('equal')
+plt.grid(True)
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+Como pueden ver, en el primer caso el área está “apoyada” sobre el eje $x$, mientras que en el segundo caso, el área está completamente **cerrada** por la curva.  
+Ambos casos requieren integración, pero el enfoque y la fórmula son diferentes.
+
+---
+
+
+### 🧩 ¿Qué estamos sumando al integrar?
+
+La diferencia entre integrar en cartesianas y polares no es solo de notación, también cambia lo que sumamos.
+
+- En coordenadas **cartesianas**, el área bajo la curva se aproxima sumando **pequeños rectángulos**:
+  - Base: $dx$
+  - Altura: $f(x)$
+  - Área de cada rectángulo: $f(x)\,dx$
+
+- En coordenadas **polares**, el área encerrada por una curva se aproxima sumando **sectores circulares**:
+  - Radio: $r(\theta)$
+  - Ángulo: $d\theta$
+  - Área de cada sector: $\frac{1}{2} r^2(\theta)\,d\theta$
+
+Esto explica por qué la fórmula para el área en polares incluye el factor $\frac{1}{2}$ y $r^2(\theta)$: estamos sumando pedacitos de sectores circulares
+
+
+### 🧠 Visualización de rectángulos vs. sectores
+
+El siguiente gráfico muestra la diferencia entre ambas aproximaciones:
+
+- A la izquierda: suma de rectángulos bajo $f(x)$
+- A la derecha: suma de sectores para $r(\theta)$
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, axs = plt.subplots(1, 2, figsize=(12, 5))
+
+# --- Subplot 1: Aproximación con rectángulos (cartesianas)
+x = np.linspace(0, np.pi, 100)
+y = np.sin(x)
+
+axs[0].plot(x, y, label=r'$y = \sin(x)$', color='blue')
+
+# Dibujar rectángulos
+n = 8
+x_rect = np.linspace(0, np.pi, n+1)
+dx = x_rect[1] - x_rect[0]
+for i in range(n):
+    xi = x_rect[i]
+    yi = np.sin(xi)
+    axs[0].add_patch(plt.Rectangle((xi, 0), dx, yi, alpha=0.3, color='blue'))
+
+axs[0].set_title("Suma de rectángulos: área bajo $f(x)$")
+axs[0].set_xlabel("x")
+axs[0].set_ylabel("y")
+axs[0].legend()
+axs[0].grid(True)
+
+# --- Subplot 2: Aproximación con sectores (polares)
+theta = np.linspace(0, np.pi/2, 9)
+r = 1 + 0.5 * np.sin(3 * theta)  # función radial cualquiera
+
+axs[1].set_title("Suma de sectores: área encerrada por $r(\\theta)$")
+axs[1].set_aspect('equal')
+axs[1].grid(True)
+
+# Dibujar sectores circulares
+for i in range(len(theta) - 1):
+    t1 = theta[i]
+    t2 = theta[i+1]
+    r_val = r[i]
+    t = np.linspace(t1, t2, 30)
+    rt = np.full_like(t, r_val)
+    x = rt * np.cos(t)
+    y = rt * np.sin(t)
+    axs[1].plot(x, y, color='red')
+    axs[1].fill(np.concatenate([[0], x, [0]]), np.concatenate([[0], y, [0]]), color='red', alpha=0.3)
+
+axs[1].set_xlim(-1.5, 1.5)
+axs[1].set_ylim(0, 1.5)
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+Esta comparación visual te ayuda a entender **cómo cambia la idea de “área”** dependiendo del sistema de coordenadas.
+
+- En cartesianas: sumamos tiras rectangulares verticales.
+- En polares: sumamos rebanadas como las de una pizza 🍕
+

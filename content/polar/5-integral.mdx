@@ -1,0 +1,230 @@
+---
+title: Integrales en coordenadas polares
+sidebarTitle: Integrales en coordenadas polares
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+# Integrales en coordenadas poláres
+
+## ✍️ ¿De dónde viene la fórmula del área en coordenadas polares?
+
+Cuando trabajamos en coordenadas cartesianas, calculamos el área bajo una curva $y = f(x)$ con:
+
+```math
+A = \int_a^b f(x)\, dx
+```
+
+Esto funciona porque estamos sumando **tiras verticales** de altura $f(x)$ y base $dx$.
+
+---
+
+### 📐 ¿Cómo cambiamos esta idea en coordenadas polares?
+
+En coordenadas polares, no sumamos rectángulos, sino **sectores circulares muy delgados**.
+
+Imaginen que dividimos una región curva (como una flor o un círculo) en muchos **"triangulitos redondeados"**, como las rebanadas de una pizza 🍕.  
+Cada rebanada tiene:
+
+- Un radio $r = r(\theta)$
+- Un pequeño ángulo $d\theta$
+
+El área de un sector circular es:
+
+```math
+A = \frac{1}{2} r^2 \theta
+```
+
+Entonces, si $\theta$ es muy pequeño ($d\theta$), podemos usar esta fórmula para aproximar el área **de una rebanada infinitesimal**:
+
+```math
+dA = \frac{1}{2} r^2(\theta) \, d\theta
+```
+
+---
+
+### 🔄 Sumando infinitas rebanadas…
+
+Para obtener el área total entre los ángulos $\theta_1$ y $\theta_2$, simplemente integramos:
+
+```math
+A = \int_{\theta_1}^{\theta_2} \frac{1}{2} \left[ r(\theta) \right]^2\, d\theta
+```
+
+Esta es la fórmula del área en coordenadas polares
+
+---
+
+### 🎨 Visualización: sectores que construyen un área
+
+El siguiente código muestra cómo una curva en polares puede ser aproximada por varios sectores, cada uno con su propio radio y ángulo.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parámetros para la curva
+theta_full = np.linspace(0, np.pi, 1000)
+r_full = 1 + 0.5 * np.sin(2 * theta_full)
+
+# Convertimos a coordenadas cartesianas
+x_full = r_full * np.cos(theta_full)
+y_full = r_full * np.sin(theta_full)
+
+# Sectores aproximados (pocos para visualización)
+theta_sect = np.linspace(0, np.pi, 8)
+r_sect = 1 + 0.5 * np.sin(2 * theta_sect)
+
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.set_aspect('equal')
+ax.set_xlim(-2, 2)
+ax.set_ylim(-0.5, 2.5)
+ax.set_title("Aproximación del área con sectores vs. curva real")
+ax.grid(True)
+
+# Área total encerrada por la curva (relleno suave)
+ax.fill(x_full, y_full, alpha=0.2, color='pink', label='Área real')
+
+# Curva real
+ax.plot(x_full, y_full, color='crimson', label=r'$r = 1 + 0.5\sin(2\theta)$')
+
+# Sectores circulares aproximados
+for i in range(len(theta_sect)-1):
+    θ1 = theta_sect[i]
+    θ2 = theta_sect[i+1]
+    r = r_sect[i]
+    t = np.linspace(θ1, θ2, 30)
+    rt = np.full_like(t, r)
+    x = rt * np.cos(t)
+    y = rt * np.sin(t)
+    ax.fill(np.concatenate([[0], x, [0]]), np.concatenate([[0], y, [0]]), alpha=0.3, color='orange')
+    ax.plot(x, y, color='darkorange')
+
+# Centro
+ax.plot(0, 0, 'ko')
+ax.legend()
+plt.show()
+```
+
+---
+
+
+## 🧮 Ejemplo: área encerrada por $r = 1 + \cos(\theta)$
+
+Queremos calcular el **área encerrada** por la curva polar:
+
+```math
+r(\theta) = 1 + \cos(\theta)
+```
+
+Esta curva es una **cardioide más estilizada**, con forma de gota o corazón. Es un ejemplo clásico y visualmente claro de curva que **no puede expresarse fácilmente en coordenadas cartesianas**.
+
+---
+
+### 📍 Paso 1: Visualizar la curva
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+theta = np.linspace(0, 2*np.pi, 1000)
+r = 1 + np.cos(theta)
+x = r * np.cos(theta)
+y = r * np.sin(theta)
+
+plt.figure(figsize=(6, 6))
+plt.plot(x, y, color='darkred', label=r'$r = 1 + \cos(\theta)$')
+plt.fill(x, y, alpha=0.2, color='darkred')
+plt.gca().set_aspect('equal')
+plt.title("Curva polar: $r = 1 + \cos(\\theta)$")
+plt.grid(True)
+plt.legend()
+plt.show()
+```
+
+---
+
+### 📍 Paso 2: Determinar los límites de integración
+
+La curva se **cierra completamente** cuando $\theta$ recorre desde $0$ hasta $2\pi$, así que:
+
+```math
+\theta \in [0, 2\pi]
+```
+
+---
+
+### 📍 Paso 3: Aplicar la fórmula del área
+
+```math
+A = \int_0^{2\pi} \frac{1}{2} \left[1 + \cos(\theta)\right]^2 \, d\theta
+```
+
+Expandimos el integrando:
+
+```math
+(1 + \cos(\theta))^2 = 1 + 2\cos(\theta) + \cos^2(\theta)
+```
+
+Y usamos la identidad:
+
+```math
+\cos^2(\theta) = \frac{1 + \cos(2\theta)}{2}
+```
+
+Entonces:
+
+```math
+A = \frac{1}{2} \int_0^{2\pi} \left(1 + 2\cos(\theta) + \frac{1 + \cos(2\theta)}{2}\right) \, d\theta
+\\
+= \frac{1}{2} \int_0^{2\pi} \left(\frac{3}{2} + 2\cos(\theta) + \frac{1}{2}\cos(2\theta)\right) \, d\theta
+```
+
+---
+
+### 📐 Integramos término a término:
+
+```math
+A = \frac{1}{2} \left[
+\frac{3}{2} \cdot 2\pi + 2 \cdot \int_0^{2\pi} \cos(\theta)\, d\theta + \frac{1}{2} \cdot \int_0^{2\pi} \cos(2\theta)\, d\theta
+\right]
+\\
+= \frac{1}{2} \left[3\pi + 0 + 0\right] = \frac{3\pi}{2}
+```
+
+---
+
+### ✅ Resultado final
+
+El área encerrada por la curva $r = 1 + \cos(\theta)$ es:
+
+```math
+A = \frac{3\pi}{2}
+```
+
+---
+
+### 🧪 Verificación con SymPy
+
+```python
+from sympy import symbols, integrate, cos, pi, simplify
+
+θ = symbols('θ')
+r = 1 + cos(θ)
+area_expr = 0.5 * r**2
+area = integrate(area_expr, (θ, 0, 2*pi))
+simplify(area)
+```
+
+---
+
+### 🧠 Conclusiones del ejemplo
+
+- Esta curva tiene **forma reconocible y no trivial**, lo que la hace ideal para estudiar integrales en coordenadas polares.
+- La integral es manejable usando identidades trigonométricas.
+- El área se obtiene sin convertir a coordenadas cartesianas.
+
