@@ -25,6 +25,9 @@ const meta: MetaRecord = {
   polar: {
     title: "Coordenadas polares",
   },
+  sequences: {
+    title: "Sucesiones",
+  }
 };
 
 export default meta;

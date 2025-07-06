@@ -1,0 +1,97 @@
+---
+title: Introducción
+sidebarTitle: Introducción
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+# 🌀 Laboratorio: Sucesiones recursivas, pensamiento recursivo y Torres de Hanoi
+
+## 🧭 Introducción general
+
+En este laboratorio estudiaremos las *sucesiones numéricas* desde un enfoque analítico y computacional. Nos centraremos en cómo pueden definirse mediante reglas **recursivas**, cómo modelarlas en código, y cómo estas ideas se conectan con el cálculo integral a través de su relación con **series numéricas**.
+
+Además, exploraremos un problema clásico que ejemplifica el pensamiento recursivo: las **Torres de Hanoi**. A través de este ejemplo veremos cómo una simple regla puede generar un crecimiento exponencial, y cómo este tipo de patrones están presentes en muchos fenómenos matemáticos.
+
+---
+
+### 📘 Sucesiones: introducción intuitiva
+
+Una *sucesión* es una función que asigna a cada número natural $n$ un número real $a_n$. Es común escribirla como una lista ordenada de términos:
+
+```math
+a_1, a_2, a_3, \ldots
+```
+
+En este laboratorio, trabajaremos principalmente con sucesiones definidas **recursivamente**. Es decir, sucesiones en las que cada término depende de uno o más términos anteriores.
+
+A continuación se presentan tres ejemplos. 
+
+#### Ejemplo 1: Sucesión de Fibonacci
+
+```math
+1,\ 1,\ 2,\ 3,\ 5,\ 8,\ 13,\ \ldots
+```
+
+Esta sucesión comienza con $a_1 = 1$, $a_2 = 1$ y cada término posterior se obtiene sumando los dos anteriores:
+
+$$
+a_n = a_{n-1} + a_{n-2}, \quad \text{para } n \geq 3
+$$
+
+#### Ejemplo 2: Sucesión cuadrática desplazada
+
+```math
+2,\ 5,\ 10,\ 17,\ 26,\ \ldots
+```
+
+Podemos observar que la diferencia entre términos consecutivos crece de manera lineal:
+
+```math
+3,\ 5,\ 7,\ 9,\ \ldots
+```
+
+Eso sugiere una regla recursiva del tipo:
+
+$$
+a_1 = 2, \quad a_n = a_{n-1} + 2n - 1
+$$
+
+En este caso también puede encontrarse una expresión cerrada:
+
+$$
+a_n = n^2 + 1
+$$
+
+#### Ejemplo 3: Sucesión geométrica
+
+```math
+1,\ 2,\ 4,\ 8,\ 16,\ \ldots
+```
+
+Cada término es el doble del anterior, lo que permite una definición recursiva directa:
+
+$$
+a_1 = 1, \quad a_n = 2 \cdot a_{n-1}
+$$
+
+Y también una fórmula explícita:
+
+$$
+a_n = 2^{n-1}
+$$
+
+---
+
+### ℹ️ Comentarios importantes
+
+- No todas las sucesiones admiten una fórmula cerrada simple.
+- Las definiciones recursivas pueden ser más naturales o fáciles de programar.
+- Algunas sucesiones requieren más de un término inicial (como Fibonacci).
+- Reconocer el tipo de crecimiento (lineal, cuadrático, exponencial) es clave para modelarlas y graficarlas.
+
+Esta observación analítica será la base para las siguientes secciones, donde programaremos sucesiones, las visualizaremos, y exploraremos su relación con problemas clásicos y series numéricas.

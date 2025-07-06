@@ -1,0 +1,100 @@
+---
+title: Recursión en Python
+sidebarTitle: Recursión en Python
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+## 🧩 Parte 2 — Introducción a la recursión en Python
+
+### 🎯 Objetivos de esta sección
+
+- Comprender el concepto de recursión desde la programación.
+- Implementar funciones recursivas simples en Python.
+- Comparar enfoques recursivos e iterativos para generar sucesiones.
+- Conectar la definición matemática de una sucesión recursiva con su implementación computacional.
+
+---
+
+### 🔄 ¿Qué es recursión?
+
+En programación, una función es **recursiva** si se llama a sí misma para resolver subproblemas del problema original.
+
+Esto es análogo a una definición recursiva en matemáticas, donde el valor de $a_n$ depende de uno o más valores anteriores como $a_{n-1}$ o $a_{n-2}$.
+
+---
+
+### 🧮 Ejemplo: sucesión de Fibonacci
+
+Definición matemática:
+
+$$
+F_0 = 0,\quad F_1 = 1,\quad F_n = F_{n-1} + F_{n-2} \text{ para } n \geq 2
+$$
+
+Implementación en Python (recursiva):
+
+```python
+def fibonacci(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+
+# Imprimir los primeros 10 términos
+for i in range(10):
+    print(fibonacci(i))
+```
+---
+
+### 🔁 Alternativa: versión iterativa
+
+```python
+def fibonacci_iterativo(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+
+# Imprimir los primeros 10 términos
+for i in range(10):
+    print(fibonacci_iterativo(i))
+```
+---
+
+### ⚠️ ¿Recursión o iteración?
+
+Aunque la versión recursiva es más cercana a la definición matemática, es **menos eficiente**: repite muchos cálculos innecesarios.
+
+Por ejemplo, para calcular `fibonacci(5)`, el código recursivo vuelve a calcular `fibonacci(3)` varias veces. Este tipo de recursión se llama **ingenua** y se puede mejorar usando técnicas como *memoización* (que veremos más adelante si es necesario).
+
+---
+
+### ✅ Ejemplo de recursión eficiente: factorial
+
+No todas las recursiones son ineficientes. Hay casos donde la recursión se usa de manera directa, clara y sin duplicación de cálculos.
+
+Definición matemática:
+
+$$
+n! = n \cdot (n - 1)! \quad \text{con } 0! = 1
+$$
+
+Implementación recursiva:
+
+```python
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+# Ejemplo: calcular 5!
+print(factorial(5))  # Imprime 120
+```

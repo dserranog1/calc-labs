@@ -1,0 +1,94 @@
+---
+title: Sucesiones recursivas
+sidebarTitle: Sucesiones recursivas
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+
+## 🧩 Parte 3 — Programación de sucesiones recursivas
+
+### 🎯 Objetivos de esta sección
+
+- Implementar funciones recursivas en Python para generar sucesiones numéricas.
+- Explorar diferentes tipos de reglas recursivas.
+- Visualizar los primeros términos de una sucesión usando gráficos.
+- Identificar patrones de crecimiento y vincularlos con el comportamiento de la función generadora.
+
+---
+
+### 🧪 Ejemplo 1: Sucesión cuadrática desplazada
+
+Recordemos esta sucesión:
+
+```math
+2,\ 5,\ 10,\ 17,\ 26,\ \ldots
+```
+
+La regla recursiva es:
+
+$$
+a_1 = 2, \quad a_n = a_{n-1} + 2n - 1
+$$
+
+Implementación en Python:
+
+```python
+def sucesion_cuadratica(n):
+    if n == 1:
+        return 2
+    else:
+        return sucesion_cuadratica(n - 1) + 2 * n - 1
+
+# Mostrar los primeros 10 términos
+for i in range(1, 11):
+    print(sucesion_cuadratica(i))
+```
+---
+
+### 🧪 Ejemplo 2: Sucesión recursiva con dependencia doble
+
+Consideremos ahora una sucesión definida como:
+
+$$
+a_1 = 1,\quad a_2 = 3,\quad a_n = a_{n-1} + a_{n-2} + 1 \quad \text{para } n \geq 3
+$$
+
+```python
+def sucesion_doble(n):
+    if n == 1:
+        return 1
+    elif n == 2:
+        return 3
+    else:
+        return sucesion_doble(n - 1) + sucesion_doble(n - 2) + 1
+
+# Mostrar los primeros 10 términos
+for i in range(1, 11):
+    print(sucesion_doble(i))
+```
+---
+
+### 📈 Visualización de una sucesión
+
+Podemos usar `matplotlib` para representar gráficamente los primeros términos y observar el tipo de crecimiento.
+
+```python
+import matplotlib.pyplot as plt
+
+def generar_sucesion(f, n_max):
+    return [f(n) for n in range(1, n_max + 1)]
+
+terminos = generar_sucesion(sucesion_cuadratica, 15)
+
+plt.plot(range(1, 16), terminos, marker='o')
+plt.title("Sucesión cuadrática desplazada")
+plt.xlabel("n")
+plt.ylabel("a_n")
+plt.grid(True)
+plt.show()
+```
