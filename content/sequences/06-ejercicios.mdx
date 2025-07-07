@@ -1,0 +1,86 @@
+---
+title: Ejercicios
+sidebarTitle: Ejercicios
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
+/>
+
+
+# Ejercicios
+
+Para cerrar este laboratorio, resolveremos juntos un ejercicio que retoma y combina varias de las ideas vistas hoy. Luego, se propondrá un ejercicio similar para que lo resuelvan de manera individual o en grupo.
+
+---
+
+### 👨‍🏫 Ejercicio 1
+
+Consideremos la siguiente sucesión definida recursivamente:
+
+```math
+a_1 = 1,\quad a_n = a_{n-1} + \frac{1}{n^2}
+```
+
+1. Implementar esta sucesión recursiva en Python.
+2. Calcular los primeros 30 términos de la sucesión.
+3. Graficar los valores $a_n$ en función de $n$.
+4. ¿Hacia qué valor parece acercarse la sucesión?
+5. Comparar la gráfica con la integral definida:
+
+```math
+\int_1^\infty \frac{1}{x^2}\, dx
+```
+
+¿Existe relación con la suma de los términos de esta sucesión?
+
+---
+
+#### ✅ Solución
+
+```python
+def sucesion_parcial(n):
+    if n == 1:
+        return 1
+    else:
+        return sucesion_parcial(n - 1) + 1 / n**2
+
+# Calcular primeros 30 términos
+valores = [sucesion_parcial(n) for n in range(1, 31)]
+
+# Graficar
+import matplotlib.pyplot as plt
+
+plt.plot(range(1, 31), valores, marker='o')
+plt.title("Sucesión $a_n = a_{n-1} + 1/n^2$")
+plt.xlabel("n")
+plt.ylabel("a_n")
+plt.grid(True)
+plt.show()
+```
+
+Este gráfico muestra cómo la sucesión **se aproxima a un valor límite**, lo que sugiere que la serie $\sum_{n=1}^{\infty} \frac{1}{n^2}$ **converge**.
+
+De hecho, se conoce que:
+
+```math
+\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6} \approx 1.6449
+```
+
+---
+
+### Ejercicio 2
+
+Considerar ahora la siguiente sucesión:
+
+```math
+b_1 = 0,\quad b_n = b_{n-1} + \frac{1}{n(n+1)}
+```
+
+1. Implementar la sucesión recursiva en Python.
+2. Calcular y grafica los primeros 30 términos.
+3. ¿A qué valor parece acercarse la sucesión?
+4. Investigar si esta serie tiene una suma conocida.
+
+Pista: los términos de la sucesión están relacionados con una **serie telescópica**, cuyas sumas parciales se pueden simplificar notablemente.
